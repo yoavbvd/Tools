@@ -1,2 +1,14 @@
-Odin
-psexec
+| Tool                  | Description                                                                         | Link                                                                                             |
+| --------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **GreyNoise**         | Collects & analyzes internet-wide scanning and bot activity to reduce noisy alerts. | [https://www.greynoise.io](https://www.greynoise.io)                                             |
+| **Odin**              | Analyzes malicious scanning, suspicious IPs, and threat intel at scale.             | [https://www.odin.com](https://www.odin.com) (If commercial, verify)                             |
+| **Shodan**            | Search engine for internet-connected devices; scans ports and banners globally.     | [https://www.shodan.io](https://www.shodan.io)                                                   |
+| **Censys**            | Internet-wide scanning with focus on certificates and TLS.                          | [https://censys.io](https://censys.io)                                                           |
+| **ZoomEye**           | Chinese internet asset search engine, similar to Shodan.                            | [https://www.zoomeye.org](https://www.zoomeye.org)                                               |
+| **AlienVault OTX**    | Open Threat Exchange platform sharing global threat data and indicators.            | [https://otx.alienvault.com](https://otx.alienvault.com)                                         |
+| **VirusTotal**        | Aggregates file and URL threat intelligence, plus passive DNS and IP data.          | [https://www.virustotal.com](https://www.virustotal.com)                                         |
+| **AbuseIPDB**         | Community-driven IP abuse reporting and reputation database.                        | [https://www.abuseipdb.com](https://www.abuseipdb.com)                                           |
+| **IPinfo**            | IP data API with geolocation, ASN, and abuse info.                                  | [https://ipinfo.io](https://ipinfo.io)                                                           |
+| **Project Sonar**     | Rapid7’s internet-wide scanning project with data dumps.                            | [https://www.rapid7.com/research/project-sonar/](https://www.rapid7.com/research/project-sonar/) |
+| **CIRCL Passive DNS** | Passive DNS data for tracking domain-IP relationships.                              | [https://www.circl.lu/services/passive-dns/](https://www.circl.lu/services/passive-dns/)         |
+| **BinaryEdge**        | Internet asset and vulnerability intelligence platform.                             | [https://www.binaryedge.io](https://www.binaryedge.io)                                           |
