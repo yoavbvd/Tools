@@ -12,3 +12,8 @@
 | **Project Sonar**     | Rapid7’s internet-wide scanning project with data dumps.                            | [https://www.rapid7.com/research/project-sonar/](https://www.rapid7.com/research/project-sonar/) |
 | **CIRCL Passive DNS** | Passive DNS data for tracking domain-IP relationships.                              | [https://www.circl.lu/services/passive-dns/](https://www.circl.lu/services/passive-dns/)         |
 | **BinaryEdge**        | Internet asset and vulnerability intelligence platform.                             | [https://www.binaryedge.io](https://www.binaryedge.io)                                           |
+
+Identifying Hashes
+Sometimes John doesn't play nice when it comes to automatically recognizing and loading hashes, but no worries—we've got workarounds! We can use other tools to figure out what kind of hash we're dealing with, and then manually tell John which format to use. There are a few ways to do this, like using an online hash identifier (such as this site- https://gitlab.com/kalilinux/packages/hash-identifier/-/raw/kali/master/hash-id.py).
+Personally, I'm a big fan of a tool called hash-identifier. It's a super straightforward Python script that tells you the most likely hash types for whatever string you drop in, giving you a backup plan if your first guess fails.
+To use it, just grab the hash-id.py script straight from its GitLab page using wget or curl. From there, kick it off with python3 hash-id.py, punch in the hash you're trying to identify, and it'll spit out a list of the top probable formats. You can see how those two steps look in the terminal below:
