@@ -145,10 +145,10 @@ nav button .num{color:var(--muted);font-family:var(--mono);font-size:11px;min-wi
 #varmodal button:hover{filter:brightness(1.08)}
 .md .var{background:rgba(43,196,255,.22);color:#dff3ff;border-radius:3px;padding:0 2px;font-weight:600}
 /* Rendered markdown */
-.md h1{font-size:25px;border-bottom:1px solid var(--border);padding-bottom:10px;margin-top:0}
-.md h2{font-size:20px;margin-top:30px;border-bottom:1px solid var(--border);padding-bottom:6px}
-.md h3{font-size:16px;margin-top:22px;color:var(--accent)}
-.md code{font-family:var(--mono);background:var(--panel2);padding:2px 6px;border-radius:4px;font-size:12.5px;color:#e6cc7a}
+.md h1{font-size:25px;color:#f2f6fb;border-bottom:2px solid var(--accent);padding-bottom:10px;margin-top:2px}
+.md h2{font-size:19px;color:#eaf1f8;margin-top:34px;border-bottom:1px solid var(--border);padding-bottom:7px}
+.md h3{font-size:15.5px;margin-top:24px;color:#eaf1f8;font-weight:650;padding-left:12px;border-left:3px solid var(--accent);line-height:1.35}
+.md code{font-family:var(--mono);background:var(--panel2);padding:2px 6px;border-radius:4px;font-size:12.5px;color:#8fe3b7}
 .md pre{position:relative;background:#06090d;border:1px solid var(--border);border-radius:8px;padding:14px 14px;overflow-x:auto}
 .md pre code{background:none;padding:0;color:#cfe3d4;font-size:12.5px;display:block}
 .md table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13px;display:block;overflow-x:auto}
@@ -546,7 +546,7 @@ function renderNotebook(){
   updateProgress();
 }
 
-// ---------- Target variables (Metasploit-style fill-in) ----------
+// ---------- Target variables (fill commands with your target IP) ----------
 const VARS_KEY='tools_target_vars_v1';
 // Each var: which exact tokens and literal placeholders in the docs it replaces.
 // `word` = a bare word replaced only in clear command contexts (surrounded by space/slash/colon/quote).
