@@ -40,5 +40,5 @@ uname -a; cat /etc/os-release            # kernel/distro for known exploits
 - `ss -tulpn` — `t` TCP, `u` UDP, `l` listening, `p` owning process, `n` numeric ports.
 
 ## Where to escalate
-- Cross-check any SUID binary, sudo rule, or capability against **[GTFOBins](https://gtfobins.github.io)** for a known escalation.
+- Cross-check any SUID binary, sudo rule, or capability against **GTFOBins** — see the [GTFOBins page](GTFOBins.md) (https://gtfobins.github.io) for a known escalation.
 - Most common wins: a writable root cron script, a `sudo` NOPASSWD entry, a SUID GTFOBin, or a known kernel exploit.

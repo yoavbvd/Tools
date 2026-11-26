@@ -31,6 +31,9 @@ wmic service get name,pathname,startmode | findstr /i "Auto" | findstr /i /v "C:
 ## Map missing patches
 - Run **WES-NG** against `systeminfo` output: `wes.py systeminfo.txt` maps missing KBs to public exploits.
 
+## Living off the land
+- Abuse trusted signed binaries instead of dropping tools — see the [LOLBAS page](LOLBAS.md).
+
 ## Common wins
 - `SeImpersonatePrivilege` → PrintSpoofer / Potato to SYSTEM.
 - Writable service binary or unquoted service path.
