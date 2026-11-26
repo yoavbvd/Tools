@@ -68,6 +68,32 @@ nav button .num{color:var(--muted);font-family:var(--mono);font-size:11px;min-wi
 .card .nm{margin-top:8px;font-weight:600;font-size:14.5px}
 .card .num{font-family:var(--mono);color:var(--muted);font-size:11px}
 .card .cnt{color:var(--muted);font-size:11.5px;margin-top:4px}
+/* Lab Notebook */
+.nb h1{font-size:24px;margin:0 0 4px}
+.nb .lead{color:var(--muted);font-size:13px;margin-bottom:18px}
+.nb .bar{display:flex;align-items:center;gap:12px;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:4;border-bottom:1px solid var(--border);margin-bottom:18px;flex-wrap:wrap}
+.nb .prog{flex:1;min-width:140px;height:9px;background:var(--panel2);border-radius:6px;overflow:hidden}
+.nb .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0}
+.nb .pct{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.nb button.act{background:var(--panel2);border:1px solid var(--border);color:var(--fg);font-family:var(--sans);
+  font-size:12.5px;padding:7px 13px;border-radius:7px;cursor:pointer}
+.nb button.act:hover{border-color:var(--accent)}
+.nb button.primary{background:var(--accent);color:#06240f;border-color:var(--accent);font-weight:600}
+.nb .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:22px}
+.nb label{display:block;font-size:11px;color:var(--muted);font-family:var(--mono);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+.nb input,.nb textarea{width:100%;background:var(--panel);border:1px solid var(--border);border-radius:7px;color:var(--fg);
+  font-family:var(--sans);font-size:13px;padding:8px 10px;outline:none}
+.nb input:focus,.nb textarea:focus{border-color:var(--accent)}
+.nb textarea{resize:vertical;min-height:70px;font-family:var(--mono);font-size:12.5px;line-height:1.5}
+.nb .phase{border:1px solid var(--border);background:var(--panel);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+.nb .phase h3{margin:0 0 10px;font-size:15px}
+.nb .phase h3 .c{font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:400;margin-left:6px}
+.nb .chk{display:flex;align-items:flex-start;gap:9px;padding:5px 0;cursor:pointer;font-size:13.5px}
+.nb .chk input{width:auto;margin-top:2px;accent-color:var(--accent);cursor:pointer}
+.nb .chk.done span{color:var(--muted);text-decoration:line-through}
+.nb .ntitle{font-size:11px;color:var(--muted);font-family:var(--mono);margin:10px 0 4px;text-transform:uppercase}
+.nb .save{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.nb .save.ok{color:var(--accent)}
 /* Rendered markdown */
 .md h1{font-size:25px;border-bottom:1px solid var(--border);padding-bottom:10px;margin-top:0}
 .md h2{font-size:20px;margin-top:30px;border-bottom:1px solid var(--border);padding-bottom:6px}
@@ -120,11 +146,18 @@ const nav=document.getElementById('nav'), content=document.getElementById('conte
 marked.setOptions({gfm:true,breaks:false});
 
 function buildNav(){
-  SECTIONS.forEach(s=>{
+  SECTIONS.forEach((s,i)=>{
     const b=document.createElement('button'); b.dataset.id=s.id;
     b.innerHTML=`<span class="ico">${s.icon}</span><span class="num">${s.num||''}</span><span>${s.label}</span>`;
     b.onclick=()=>{location.hash='#/'+s.id; closeMenu();};
     nav.appendChild(b);
+    // Lab Notebook button goes right after "Guides"
+    if(s.id==='guides'){
+      const nb=document.createElement('button'); nb.dataset.id='notebook';
+      nb.innerHTML=`<span class="ico">📓</span><span class="num"></span><span>Lab Notebook</span>`;
+      nb.onclick=()=>{location.hash='#/notebook'; closeMenu();};
+      nav.appendChild(nb);
+    }
   });
 }
 function setActive(id){[...nav.children].forEach(b=>b.classList.toggle('active',b.dataset.id===id));}
@@ -147,9 +180,34 @@ function findSectionByPath(p){
   return null;
 }
 
+function slugify(s){ return s.toLowerCase().replace(/[^\p{L}\p{N}\p{M}\s-]/gu,'').trim().replace(/\s/g,'-'); }
+function addHeadingIds(root){
+  const seen={};
+  root.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(h=>{
+    let base=slugify(h.textContent)||'section', id=base, i=1;
+    while(seen[id]) id=base+'-'+(i++);
+    seen[id]=1; h.id=id;
+  });
+}
+function scrollToAnchor(root,id){
+  let el=document.getElementById(id);
+  if(!el){ el=[...root.querySelectorAll('h1,h2,h3,h4,h5,h6')].find(h=>slugify(h.textContent)===id||slugify(h.textContent).replace(/^-+/,'')===id.replace(/^-+/,'')); }
+  if(el){ el.scrollIntoView({block:'start',behavior:'smooth'}); return true; }
+  return false;
+}
+
 async function render(){
-  const raw=decodeURIComponent(location.hash.replace(/^#\/?/,'')) || 'home';
+  const h=location.hash||'';
+  // Bare in-page anchor (#foo), not a route (#/foo): scroll within the current page.
+  if(h && h.length>1 && !h.startsWith('#/')){
+    const id=decodeURIComponent(h.slice(1));
+    const md=content.querySelector('.md');
+    if(md && scrollToAnchor(md,id)) return;
+    setActive('home'); return renderHome();
+  }
+  const raw=decodeURIComponent(h.replace(/^#\//,'')) || 'home';
   if(raw==='home'||raw===''){ setActive('home'); return renderHome(); }
+  if(raw==='notebook'){ setActive('notebook'); return renderNotebook(); }
   // raw may be a section id OR a file path
   let sec=SECTIONS.find(s=>s.id===raw);
   let file=null;
@@ -176,6 +234,7 @@ function renderHome(){
      <div class="tag">Phase-by-phase offensive-security tools, commands, and cheat sheets.</div>
      <div style="margin-top:14px">
        <a href="#/guides">📖 Start a Pentest Lab</a> &nbsp;·&nbsp;
+       <a href="#/notebook">📓 Lab Notebook</a> &nbsp;·&nbsp;
        <a href="#/10-Analysis-Forensics">🔬 Analysis & Forensics</a>
      </div>
      <div class="warn">For educational purposes only, and only for lab-controlled, authorized penetration testing.</div>
@@ -194,6 +253,7 @@ async function renderFile(sec,file){
     if(!res.ok) throw new Error(res.status);
     const text=await res.text();
     mdEl.innerHTML=marked.parse(text);
+    addHeadingIds(mdEl);
     rewriteLinks(mdEl,file.path);
     addCopyButtons(mdEl);
     content.scrollIntoView({block:'start'});
@@ -208,6 +268,11 @@ async function renderFile(sec,file){
 function rewriteLinks(root,base){
   root.querySelectorAll('a[href]').forEach(a=>{
     const href=a.getAttribute('href');
+    // In-page anchor (#heading, not a #/route): smooth-scroll without changing the route.
+    if(href.startsWith('#') && !href.startsWith('#/')){
+      a.addEventListener('click',e=>{ e.preventDefault(); scrollToAnchor(root, decodeURIComponent(href.slice(1))); });
+      return;
+    }
     if(/^(https?:|mailto:|#)/.test(href)) return;
     // internal .md or folder link -> route in-app
     const resolved=resolvePath(base,href.replace(/#.*$/,''));
@@ -309,6 +374,102 @@ searchEl.addEventListener('keydown',e=>{
 });
 document.addEventListener('keydown',e=>{ if(e.key==='/'&&document.activeElement!==searchEl&&!/^(INPUT|TEXTAREA)$/.test(document.activeElement.nodeName)){ e.preventDefault(); searchEl.focus(); } });
 document.addEventListener('click',e=>{ if(!document.getElementById('searchbox').contains(e.target)) closeResults(); });
+
+// ---------- Lab Notebook ----------
+const LAB_KEY='tools_lab_notebook_v1';
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LAB_PHASES=[
+ {id:'setup',icon:'🧰',name:'00 · Lab Setup',items:['Attack VM updated & snapshotted','VPN connected, routing confirmed','Engagement folder created','Target scope & rules of engagement recorded']},
+ {id:'recon',icon:'🔭',name:'01 · Recon',items:['Full TCP port scan (all ports)','UDP top-ports scan','Service versions identified','Subdomains / vhosts enumerated','Hostnames added to /etc/hosts']},
+ {id:'enum',icon:'📡',name:'02 · Enumeration',items:['Each open service enumerated in depth','SMB shares / null session checked','Default & weak credentials tried','Interesting files / versions noted']},
+ {id:'web',icon:'🌐',name:'03 · Web',items:['Directories & files fuzzed','Parameters tested (SQLi, LFI, cmd inj)','Auth / session logic reviewed','File upload / SSRF / IDOR checked']},
+ {id:'foothold',icon:'💥',name:'04 · Exploitation / Foothold',items:['Public exploits matched to versions','Reverse shell caught','Shell stabilized (PTY)','Initial access documented + screenshot']},
+ {id:'privesc',icon:'🔼',name:'05 · Privilege Escalation',items:['Automated enum run (linpeas / winpeas)','SUID / sudo / services reviewed','Kernel / OS exploit checked','Escalated to root / SYSTEM','proof.txt captured + screenshot']},
+ {id:'ad',icon:'🏛️',name:'06 · Active Directory',items:['Domain mapped (BloodHound)','Kerberoast / AS-REP attempted','Lateral movement path found','Domain Admin reached']},
+ {id:'pivot',icon:'🔀',name:'07 · Post-Exploitation / Pivoting',items:['Credentials & secrets looted','Internal subnets reached (tunnel)','Persistence considered (if in scope)']},
+ {id:'creds',icon:'🔑',name:'08 · Password Attacks',items:['Hashes identified','Offline cracking run (hashcat / john)','Cracked credentials reused']},
+ {id:'report',icon:'📝',name:'09 · Reporting',items:['All evidence / screenshots saved','Findings written (severity + impact + recommendation)','Report drafted','Report reviewed']},
+];
+function loadLab(){ try{ const s=localStorage.getItem(LAB_KEY); if(s) return JSON.parse(s); }catch(e){} return {meta:{},checks:{},notes:{},summary:''}; }
+let lab=loadLab(); let labSaveTimer;
+function saveLab(){ try{ localStorage.setItem(LAB_KEY,JSON.stringify(lab)); }catch(e){} flashSave('saved'); }
+function flashSave(msg){ const el=document.getElementById('nbsave'); if(!el)return; el.textContent='✓ '+msg; el.classList.add('ok'); clearTimeout(labSaveTimer); labSaveTimer=setTimeout(()=>{el.textContent='';el.classList.remove('ok');},1300); }
+function labCounts(){ let total=0,done=0; LAB_PHASES.forEach(p=>p.items.forEach((_,i)=>{ total++; if(lab.checks[p.id+':'+i]) done++; })); return {total,done}; }
+function updateProgress(){ const {total,done}=labCounts(); const pct=total?Math.round(done/total*100):0;
+  const bar=document.getElementById('nbprog'), pc=document.getElementById('nbpct'); if(bar)bar.style.width=pct+'%'; if(pc)pc.textContent=done+'/'+total+' · '+pct+'%'; }
+function labFilename(ext){ const t=(lab.meta.target||'lab').replace(/[^\w-]+/g,'_').slice(0,40)||'lab'; return `pentest-${t}-${new Date().toISOString().slice(0,10)}.${ext}`; }
+
+function labMarkdown(){
+  const m=lab.meta, {total,done}=labCounts(), d=new Date().toISOString().slice(0,10);
+  let o=`# Pentest Lab Report — ${m.target||'Untitled Engagement'}\n\n`;
+  o+=`| Field | Value |\n| --- | --- |\n| Target | ${m.target||''} |\n| IP(s) | ${m.ip||''} |\n| Scope | ${m.scope||''} |\n| Date | ${m.date||''} |\n| Tester | ${m.tester||''} |\n| Progress | ${done}/${total} checks complete |\n\n`;
+  if((lab.summary||'').trim()) o+=`## Executive Summary\n\n${lab.summary.trim()}\n\n`;
+  LAB_PHASES.forEach(p=>{
+    o+=`## ${p.name}\n\n`;
+    p.items.forEach((it,i)=>{ o+=`- [${lab.checks[p.id+':'+i]?'x':' '}] ${it}\n`; });
+    const n=(lab.notes[p.id]||'').trim(); if(n) o+=`\n**Notes:**\n\n${n}\n`;
+    o+=`\n`;
+  });
+  o+=`---\n\n_Generated with the Pentesting Toolkit lab notebook on ${d}. For authorized testing only._\n`;
+  return o;
+}
+function labHtml(){
+  const body=marked.parse(labMarkdown());
+  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(lab.meta.target||'Pentest Lab Report')}</title>
+<style>body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:820px;margin:40px auto;padding:0 20px;color:#1a1a1a;line-height:1.6}
+code,pre{font-family:ui-monospace,Consolas,monospace}pre{background:#f4f4f4;padding:12px;border-radius:6px;overflow:auto}
+table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:6px 10px;text-align:left}h1,h2{border-bottom:1px solid #eee;padding-bottom:4px}
+ul{list-style:none;padding-left:4px}li{margin:3px 0}</style></head><body>${body}</body></html>`;
+}
+function download(name,text,type){
+  const b=new Blob([text],{type:type||'text/plain'}); const u=URL.createObjectURL(b);
+  const a=document.createElement('a'); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(u),2000);
+}
+
+function renderNotebook(){
+  const m=lab.meta;
+  const phases=LAB_PHASES.map(p=>{
+    const items=p.items.map((it,i)=>{ const done=!!lab.checks[p.id+':'+i];
+      return `<label class="chk${done?' done':''}" data-k="${p.id}:${i}"><input type="checkbox" ${done?'checked':''}><span>${esc(it)}</span></label>`; }).join('');
+    return `<div class="phase"><h3>${p.icon} ${esc(p.name)}</h3>${items}
+      <div class="ntitle">Notes</div>
+      <textarea data-note="${p.id}" placeholder="Findings, commands, creds, screenshot paths…">${esc(lab.notes[p.id]||'')}</textarea></div>`;
+  }).join('');
+  content.innerHTML=`<div class="nb">
+    <h1>📓 Lab Notebook</h1>
+    <div class="lead">Document your lab engagement phase by phase. Everything is saved <strong>in this browser only</strong> — nothing is uploaded. Export a report when you finish. <span class="save" id="nbsave"></span></div>
+    <div class="bar">
+      <div class="prog"><i id="nbprog"></i></div><span class="pct" id="nbpct">0/0</span>
+      <button class="act primary" id="nbmd">⬇ Markdown</button>
+      <button class="act" id="nbhtml">⬇ HTML</button>
+      <button class="act" id="nbcopy">⧉ Copy</button>
+      <button class="act" id="nbreset">↺ Reset</button>
+    </div>
+    <div class="meta">
+      <div><label>Target / name</label><input data-meta="target" value="${esc(m.target)}" placeholder="box01 / client-a"></div>
+      <div><label>IP(s)</label><input data-meta="ip" value="${esc(m.ip)}" placeholder="10.10.10.50"></div>
+      <div><label>Date</label><input data-meta="date" value="${esc(m.date)}" placeholder="YYYY-MM-DD"></div>
+      <div><label>Tester</label><input data-meta="tester" value="${esc(m.tester)}"></div>
+      <div style="grid-column:1/-1"><label>Scope / rules of engagement</label><input data-meta="scope" value="${esc(m.scope)}" placeholder="in-scope hosts, constraints, timing"></div>
+    </div>
+    <label>Executive summary</label>
+    <textarea data-summary style="min-height:90px;margin-bottom:20px" placeholder="One-paragraph summary of the engagement and key outcomes…">${esc(lab.summary)}</textarea>
+    ${phases}
+    <p class="lead" style="margin-top:18px">Tip: the checklist mirrors the phase folders in the sidebar — open a phase for the tools and commands.</p>
+  </div>`;
+  window.scrollTo(0,0);
+  content.querySelectorAll('[data-meta]').forEach(inp=>inp.addEventListener('input',()=>{ lab.meta[inp.dataset.meta]=inp.value; saveLab(); }));
+  const sum=content.querySelector('[data-summary]'); if(sum) sum.addEventListener('input',()=>{ lab.summary=sum.value; saveLab(); });
+  content.querySelectorAll('[data-note]').forEach(t=>t.addEventListener('input',()=>{ lab.notes[t.dataset.note]=t.value; saveLab(); }));
+  content.querySelectorAll('.chk input[type=checkbox]').forEach(cb=>cb.addEventListener('change',()=>{
+    const row=cb.closest('.chk'); lab.checks[row.dataset.k]=cb.checked; row.classList.toggle('done',cb.checked); saveLab(); updateProgress(); }));
+  content.querySelector('#nbmd').onclick=()=>download(labFilename('md'),labMarkdown(),'text/markdown');
+  content.querySelector('#nbhtml').onclick=()=>download(labFilename('html'),labHtml(),'text/html');
+  content.querySelector('#nbcopy').onclick=()=>{ navigator.clipboard.writeText(labMarkdown()).then(()=>flashSave('copied')); };
+  content.querySelector('#nbreset').onclick=()=>{ if(confirm('Clear all notebook data saved in this browser?')){ lab={meta:{},checks:{},notes:{},summary:''}; saveLab(); renderNotebook(); } };
+  updateProgress();
+}
 
 window.addEventListener('hashchange',render);
 buildNav(); render(); buildIndex();
