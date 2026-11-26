@@ -18,11 +18,6 @@ Sometimes John doesn't play nice when it comes to automatically recognizing and 
 Personally, I'm a big fan of a tool called hash-identifier. It's a super straightforward Python script that tells you the most likely hash types for whatever string you drop in, giving you a backup plan if your first guess fails.
 To use it, just grab the hash-id.py script straight from its GitLab page using wget or curl. From there, kick it off with python3 hash-id.py, punch in the hash you're trying to identify, and it'll spit out a list of the top probable formats. You can see how those two steps look in the terminal below:
 
-Cryptographic keys decoder:
-https://www.dcode.fr/rsa-cipher
+### Crypto, RSA & deobfuscation tools
 
-Encryptions factor decoder:
-https://factordb.com/?id=1100000000294466837&full=1
-
-JAVASCRIPT DeObfuscator:
-Obfuscator.io Deobfuscator
+Moved to a dedicated page: **[Crypto, RSA & Encoding](../10-Analysis-Forensics/Crypto-and-Encoding.md)** — includes the dCode RSA toolkit (dcode.fr), FactorDB, RsaCtfTool, CyberChef, and JavaScript deobfuscators.

@@ -44,7 +44,7 @@ Run it locally with `python3 -m http.server`, then open `index.html`. (Opening t
 | 07 | **[Post-Exploitation & Pivoting](07-Post-Exploitation-Pivoting/)** | ligolo-ng, chisel, SOCKS tunneling |
 | 08 | **[Password Attacks](08-Password-Attacks/)** | hashcat, john, `*2john`, wordlists |
 | 09 | **[Reporting](09-Reporting/)** | Evidence capture, report structure |
-| 10 | **[Analysis & Forensics](10-Analysis-Forensics/)** | [OLEdump](10-Analysis-Forensics/OLEdump.md), olevba, pdfid, exiftool, binwalk, yara |
+| 10 | **[Analysis & Forensics](10-Analysis-Forensics/)** | [OLEdump](10-Analysis-Forensics/OLEdump.md), [Crypto/RSA](10-Analysis-Forensics/Crypto-and-Encoding.md), olevba, pdfid, exiftool, binwalk, yara |
 
 **Other:** [Misc](Misc/) (AI-assisted & adversary-emulation notes) · [OSCP](OSCP/) (exam study notes — a side section).
 

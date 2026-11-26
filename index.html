@@ -24,6 +24,22 @@ a:hover{text-decoration:underline}
 #brand{padding:18px 16px;border-bottom:1px solid var(--border);font-family:var(--mono)}
 #brand .logo{color:var(--accent);font-weight:700;font-size:15px;letter-spacing:.5px}
 #brand .sub{color:var(--muted);font-size:11px;margin-top:3px}
+#searchbox{padding:10px 12px;border-bottom:1px solid var(--border);position:relative}
+#search{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--fg);
+  font-family:var(--mono);font-size:12px;padding:8px 10px;outline:none}
+#search:focus{border-color:var(--accent)}
+#results{position:absolute;left:12px;right:12px;top:48px;z-index:30;max-height:60vh;overflow-y:auto;
+  background:var(--panel2);border:1px solid var(--border);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#results .r{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--border);
+  padding:9px 11px;cursor:pointer;color:var(--fg)}
+#results .r:last-child{border-bottom:0}
+#results .r:hover,#results .r.sel{background:var(--panel)}
+#results .r .t{font-size:12.5px;color:var(--accent);font-weight:600}
+#results .r .sec{font-size:10.5px;color:var(--muted);font-family:var(--mono)}
+#results .r .snip{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+#results .r .snip mark,.md mark{background:rgba(57,217,138,.25);color:#eafff3;border-radius:2px;padding:0 1px}
+#results .none{padding:11px;color:var(--muted);font-size:12px}
+.md mark.hl{background:rgba(43,196,255,.3)}
 nav{padding:8px 0}
 nav button{display:flex;align-items:center;gap:9px;width:100%;background:none;border:0;color:var(--fg);
   font-family:var(--sans);font-size:13.5px;text-align:left;padding:9px 16px;cursor:pointer;border-left:3px solid transparent}
@@ -84,6 +100,10 @@ nav button .num{color:var(--muted);font-family:var(--mono);font-size:11px;min-wi
 <div id="wrap">
   <aside id="sidebar">
     <div id="brand"><div class="logo">▚ TOOLS</div><div class="sub">Pentesting Toolkit</div></div>
+    <div id="searchbox">
+      <input id="search" type="search" placeholder="Search ( / )  —  tools, flags, commands" autocomplete="off" spellcheck="false">
+      <div id="results" hidden></div>
+    </div>
     <nav id="nav"></nav>
   </aside>
   <div id="main">
@@ -93,7 +113,7 @@ nav button .num{color:var(--muted);font-family:var(--mono);font-size:11px;min-wi
 </div>
 <div id="scrim"></div>
 <script>
-const SECTIONS = [{"id": "home", "label": "Home", "icon": "🏠", "num": "", "files": []}, {"id": "guides", "label": "Guides", "icon": "📖", "num": "", "files": [{"path": "START-A-PENTEST-LAB.md", "title": "Start a Pentest Lab"}, {"path": "Pentesting-Field-Guide.md", "title": "Pentesting Field Guide"}]}, {"id": "00-Lab-Setup", "label": "Lab Setup", "num": "00", "icon": "🧰", "files": [{"path": "00-Lab-Setup/README.md", "title": "Overview"}]}, {"id": "01-Recon", "label": "Recon", "num": "01", "icon": "🔭", "files": [{"path": "01-Recon/README.md", "title": "Overview"}, {"path": "01-Recon/Internet-Scanners-and-Threat-Intel.md", "title": "Internet Scanners and Threat Intel"}, {"path": "01-Recon/OSINT-Toolkit.md", "title": "OSINT Toolkit"}]}, {"id": "02-Enumeration", "label": "Enumeration", "num": "02", "icon": "📡", "files": [{"path": "02-Enumeration/README.md", "title": "Overview"}, {"path": "02-Enumeration/FTP.md", "title": "FTP"}, {"path": "02-Enumeration/LDAP.md", "title": "LDAP"}, {"path": "02-Enumeration/SMB.md", "title": "SMB"}, {"path": "02-Enumeration/SNMP.md", "title": "SNMP"}, {"path": "02-Enumeration/SSH.md", "title": "SSH"}]}, {"id": "03-Web", "label": "Web", "num": "03", "icon": "🌐", "files": [{"path": "03-Web/README.md", "title": "Overview"}, {"path": "03-Web/Client-Side-JavaScript-Security.md", "title": "Client Side JavaScript Security"}]}, {"id": "04-Exploitation", "label": "Exploitation", "num": "04", "icon": "💥", "files": [{"path": "04-Exploitation/README.md", "title": "Overview"}, {"path": "04-Exploitation/Reverse-Shells.md", "title": "Reverse Shells"}]}, {"id": "05-Privilege-Escalation", "label": "Privilege Escalation", "num": "05", "icon": "🔼", "files": [{"path": "05-Privilege-Escalation/README.md", "title": "Overview"}, {"path": "05-Privilege-Escalation/Linux.md", "title": "Linux"}, {"path": "05-Privilege-Escalation/Windows.md", "title": "Windows"}]}, {"id": "06-Active-Directory", "label": "Active Directory", "num": "06", "icon": "🏛️", "files": [{"path": "06-Active-Directory/README.md", "title": "Overview"}, {"path": "06-Active-Directory/Windows-Server-AD-Lab-Setup.md", "title": "Windows Server AD Lab Setup"}]}, {"id": "07-Post-Exploitation-Pivoting", "label": "Post Exploitation Pivoting", "num": "07", "icon": "🔀", "files": [{"path": "07-Post-Exploitation-Pivoting/README.md", "title": "Overview"}]}, {"id": "08-Password-Attacks", "label": "Password Attacks", "num": "08", "icon": "🔑", "files": [{"path": "08-Password-Attacks/README.md", "title": "Overview"}]}, {"id": "09-Reporting", "label": "Reporting", "num": "09", "icon": "📝", "files": [{"path": "09-Reporting/README.md", "title": "Overview"}]}, {"id": "10-Analysis-Forensics", "label": "Analysis Forensics", "num": "10", "icon": "🔬", "files": [{"path": "10-Analysis-Forensics/README.md", "title": "Overview"}, {"path": "10-Analysis-Forensics/OLEdump.md", "title": "OLEdump"}]}, {"id": "OSCP", "label": "OSCP", "num": "", "icon": "🎓", "files": [{"path": "OSCP/README.md", "title": "Overview"}, {"path": "OSCP/Cheat-Sheet.md", "title": "Cheat Sheet"}, {"path": "OSCP/Exam-Format.md", "title": "Exam Format"}, {"path": "OSCP/Methodology.md", "title": "Methodology"}, {"path": "OSCP/Practice-Resources.md", "title": "Practice Resources"}, {"path": "OSCP/Report-Tips.md", "title": "Report Tips"}, {"path": "OSCP/Restricted-Tools.md", "title": "Restricted Tools"}]}, {"id": "Misc", "label": "Misc", "num": "", "icon": "🧩", "files": [{"path": "Misc/README.md", "title": "Overview"}, {"path": "Misc/AI-Assisted-Pentesting-and-Adversary-Emulation.md", "title": "AI Assisted Pentesting and Adversary Emulation"}]}];
+const SECTIONS = [{"id": "home", "label": "Home", "icon": "🏠", "num": "", "files": []}, {"id": "guides", "label": "Guides", "icon": "📖", "num": "", "files": [{"path": "START-A-PENTEST-LAB.md", "title": "Start a Pentest Lab"}, {"path": "Pentesting-Field-Guide.md", "title": "Pentesting Field Guide"}]}, {"id": "00-Lab-Setup", "label": "Lab Setup", "num": "00", "icon": "🧰", "files": [{"path": "00-Lab-Setup/README.md", "title": "Overview"}]}, {"id": "01-Recon", "label": "Recon", "num": "01", "icon": "🔭", "files": [{"path": "01-Recon/README.md", "title": "Overview"}, {"path": "01-Recon/Internet-Scanners-and-Threat-Intel.md", "title": "Internet Scanners and Threat Intel"}, {"path": "01-Recon/OSINT-Toolkit.md", "title": "OSINT Toolkit"}]}, {"id": "02-Enumeration", "label": "Enumeration", "num": "02", "icon": "📡", "files": [{"path": "02-Enumeration/README.md", "title": "Overview"}, {"path": "02-Enumeration/FTP.md", "title": "FTP"}, {"path": "02-Enumeration/LDAP.md", "title": "LDAP"}, {"path": "02-Enumeration/SMB.md", "title": "SMB"}, {"path": "02-Enumeration/SNMP.md", "title": "SNMP"}, {"path": "02-Enumeration/SSH.md", "title": "SSH"}]}, {"id": "03-Web", "label": "Web", "num": "03", "icon": "🌐", "files": [{"path": "03-Web/README.md", "title": "Overview"}, {"path": "03-Web/Client-Side-JavaScript-Security.md", "title": "Client Side JavaScript Security"}]}, {"id": "04-Exploitation", "label": "Exploitation", "num": "04", "icon": "💥", "files": [{"path": "04-Exploitation/README.md", "title": "Overview"}, {"path": "04-Exploitation/Reverse-Shells.md", "title": "Reverse Shells"}]}, {"id": "05-Privilege-Escalation", "label": "Privilege Escalation", "num": "05", "icon": "🔼", "files": [{"path": "05-Privilege-Escalation/README.md", "title": "Overview"}, {"path": "05-Privilege-Escalation/Linux.md", "title": "Linux"}, {"path": "05-Privilege-Escalation/Windows.md", "title": "Windows"}]}, {"id": "06-Active-Directory", "label": "Active Directory", "num": "06", "icon": "🏛️", "files": [{"path": "06-Active-Directory/README.md", "title": "Overview"}, {"path": "06-Active-Directory/Windows-Server-AD-Lab-Setup.md", "title": "Windows Server AD Lab Setup"}]}, {"id": "07-Post-Exploitation-Pivoting", "label": "Post Exploitation Pivoting", "num": "07", "icon": "🔀", "files": [{"path": "07-Post-Exploitation-Pivoting/README.md", "title": "Overview"}]}, {"id": "08-Password-Attacks", "label": "Password Attacks", "num": "08", "icon": "🔑", "files": [{"path": "08-Password-Attacks/README.md", "title": "Overview"}]}, {"id": "09-Reporting", "label": "Reporting", "num": "09", "icon": "📝", "files": [{"path": "09-Reporting/README.md", "title": "Overview"}]}, {"id": "10-Analysis-Forensics", "label": "Analysis Forensics", "num": "10", "icon": "🔬", "files": [{"path": "10-Analysis-Forensics/README.md", "title": "Overview"}, {"path": "10-Analysis-Forensics/Crypto-and-Encoding.md", "title": "Crypto and Encoding"}, {"path": "10-Analysis-Forensics/OLEdump.md", "title": "OLEdump"}]}, {"id": "OSCP", "label": "OSCP", "num": "", "icon": "🎓", "files": [{"path": "OSCP/README.md", "title": "Overview"}, {"path": "OSCP/Cheat-Sheet.md", "title": "Cheat Sheet"}, {"path": "OSCP/Exam-Format.md", "title": "Exam Format"}, {"path": "OSCP/Methodology.md", "title": "Methodology"}, {"path": "OSCP/Practice-Resources.md", "title": "Practice Resources"}, {"path": "OSCP/Report-Tips.md", "title": "Report Tips"}, {"path": "OSCP/Restricted-Tools.md", "title": "Restricted Tools"}]}, {"id": "Misc", "label": "Misc", "num": "", "icon": "🧩", "files": [{"path": "Misc/README.md", "title": "Overview"}, {"path": "Misc/AI-Assisted-Pentesting-and-Adversary-Emulation.md", "title": "AI Assisted Pentesting and Adversary Emulation"}]}];
 const nav=document.getElementById('nav'), content=document.getElementById('content'),
       sidebar=document.getElementById('sidebar'), scrim=document.getElementById('scrim');
 
@@ -177,7 +197,8 @@ async function renderFile(sec,file){
     rewriteLinks(mdEl,file.path);
     addCopyButtons(mdEl);
     content.scrollIntoView({block:'start'});
-    window.scrollTo(0,0);
+    if(pendingHighlight){ const q=pendingHighlight; pendingHighlight=null; applyHighlight(mdEl,q); }
+    else { window.scrollTo(0,0); }
   }catch(e){
     mdEl.innerHTML='<blockquote>Could not load <code>'+file.path+'</code>. '+
       'If you opened this file directly from disk, the browser blocks local fetch — use GitHub Pages or a local web server.</blockquote>';
@@ -207,8 +228,90 @@ function addCopyButtons(root){
 
 document.getElementById('menuBtn').onclick=()=>{sidebar.classList.add('open');scrim.classList.add('show');};
 scrim.onclick=closeMenu;
+// ---------- Search ----------
+let pendingHighlight=null, searchIndex=null, indexing=null, selIdx=-1;
+const searchEl=document.getElementById('search'), resultsEl=document.getElementById('results');
+const reEsc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const htmlEsc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+function allFiles(){ const o=[]; SECTIONS.forEach(s=>s.files.forEach(f=>o.push({path:f.path,title:f.title,section:s.label,icon:s.icon}))); return o; }
+
+async function buildIndex(){
+  if(searchIndex) return searchIndex;
+  if(indexing) return indexing;
+  indexing=Promise.all(allFiles().map(async f=>{
+    try{ const t=await fetch(f.path,{cache:'force-cache'}).then(r=>r.text()); return {...f,text:t,lc:t.toLowerCase()}; }
+    catch(e){ return {...f,text:'',lc:''}; }
+  })).then(d=>{ searchIndex=d; return d; });
+  return indexing;
+}
+
+function snippet(text,lc,q){
+  const i=lc.indexOf(q); if(i<0) return '';
+  const start=Math.max(0,i-40), end=Math.min(text.length,i+q.length+70);
+  let s=htmlEsc(text.slice(start,end).replace(/\s+/g,' ').trim());
+  s=s.replace(new RegExp('('+reEsc(q)+')','ig'),'<mark>$1</mark>');
+  return (start>0?'… ':'')+s+(end<text.length?' …':'');
+}
+
+async function doSearch(raw){
+  const q=raw.trim().toLowerCase();
+  if(q.length<2){ resultsEl.hidden=true; resultsEl.innerHTML=''; return; }
+  const docs=await buildIndex();
+  const hits=[];
+  for(const d of docs){
+    let score=0; const idx=d.lc.indexOf(q);
+    if(d.title.toLowerCase().includes(q)) score+=50;
+    if(idx>=0){ score+=20; let c=0,p=idx; while(p>=0&&c<12){c++;p=d.lc.indexOf(q,p+q.length);} score+=c; }
+    if(score>0) hits.push({d,score,idx});
+  }
+  hits.sort((a,b)=>b.score-a.score);
+  const top=hits.slice(0,25);
+  if(!top.length){ resultsEl.innerHTML='<div class="none">No matches for “'+htmlEsc(raw)+'”.</div>'; resultsEl.hidden=false; return; }
+  resultsEl.innerHTML=top.map((h,i)=>{
+    const snip=h.idx>=0?snippet(h.d.text,h.d.lc,q):'';
+    return '<button class="r'+(i===0?' sel':'')+'" data-path="'+encodeURIComponent(h.d.path)+'" data-q="'+encodeURIComponent(q)+'">'+
+      '<div class="t">'+h.d.icon+' '+htmlEsc(h.d.title)+'</div><div class="sec">'+htmlEsc(h.d.section)+'</div>'+
+      (snip?'<div class="snip">'+snip+'</div>':'')+'</button>';
+  }).join('');
+  selIdx=0; resultsEl.hidden=false;
+  resultsEl.querySelectorAll('.r').forEach(b=>{ b.onclick=()=>{
+    pendingHighlight=decodeURIComponent(b.dataset.q);
+    location.hash='#/'+b.dataset.path; closeResults(); closeMenu(); }; });
+}
+function closeResults(){ resultsEl.hidden=true; }
+
+function applyHighlight(root,q){
+  if(!q) return;
+  const re=new RegExp(reEsc(q),'i'), reg=new RegExp('('+reEsc(q)+')','ig');
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  const targets=[]; let n;
+  while(n=walker.nextNode()){ const pn=n.parentNode; if(pn&&!['SCRIPT','STYLE','MARK'].includes(pn.nodeName)&&re.test(n.nodeValue)) targets.push(n); }
+  targets.forEach(t=>{ const span=document.createElement('span');
+    span.innerHTML=htmlEsc(t.nodeValue).replace(reg,'<mark class="hl">$1</mark>');
+    t.parentNode.replaceChild(span,t); });
+  const m=root.querySelector('mark.hl');
+  if(m) m.scrollIntoView({block:'center'}); else window.scrollTo(0,0);
+}
+
+let searchTimer;
+searchEl.addEventListener('input',()=>{ clearTimeout(searchTimer); searchTimer=setTimeout(()=>doSearch(searchEl.value),110); });
+searchEl.addEventListener('focus',()=>{ buildIndex(); if(searchEl.value.trim().length>=2) doSearch(searchEl.value); });
+searchEl.addEventListener('keydown',e=>{
+  const items=[...resultsEl.querySelectorAll('.r')];
+  if(e.key==='Escape'){ searchEl.value=''; closeResults(); searchEl.blur(); return; }
+  if(!items.length) return;
+  if(e.key==='ArrowDown'){ e.preventDefault(); selIdx=Math.min(items.length-1,selIdx+1); }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); selIdx=Math.max(0,selIdx-1); }
+  else if(e.key==='Enter'){ e.preventDefault(); if(items[selIdx]) items[selIdx].click(); return; }
+  else return;
+  items.forEach((b,i)=>b.classList.toggle('sel',i===selIdx)); items[selIdx].scrollIntoView({block:'nearest'});
+});
+document.addEventListener('keydown',e=>{ if(e.key==='/'&&document.activeElement!==searchEl&&!/^(INPUT|TEXTAREA)$/.test(document.activeElement.nodeName)){ e.preventDefault(); searchEl.focus(); } });
+document.addEventListener('click',e=>{ if(!document.getElementById('searchbox').contains(e.target)) closeResults(); });
+
 window.addEventListener('hashchange',render);
-buildNav(); render();
+buildNav(); render(); buildIndex();
 </script>
 </body>
 </html>

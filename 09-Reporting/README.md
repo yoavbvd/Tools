@@ -18,7 +18,7 @@ report/
 └── report_draft.md
 ```
 
-## Report structure (Konfidas format)
+## Report structure
 For each finding, use: **Finding → Severity (Critical / High / Medium / Low) → Impact → Recommendation → References.**
 
 - **Executive summary:** risk and business impact, in plain language.
