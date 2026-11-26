@@ -45,7 +45,7 @@ kerbrute passwordspray -d domain.local --dc 10.10.10.10 users.txt 'Winter2026!'
 
 ### Mimikatz — the Windows credential toolkit
 - **Purpose:** the canonical post-exploitation tool for extracting plaintext passwords, NTLM hashes, Kerberos tickets, and for forging tickets. Runs on a compromised Windows host (needs local admin / SYSTEM for most modules).
-- **Why it was missing:** earlier revisions used the cross-platform **impacket** equivalents (which run from Linux). Mimikatz is the on-host Windows counterpart — both are included here now.
+- **vs. impacket:** Mimikatz runs **on the compromised Windows host**; the cross-platform **impacket** / **pypykatz** tools do the equivalent **from your Linux attack box**.
 - **Source:** https://github.com/gentilkiwi/mimikatz  ·  Linux/cross-platform port: **pypykatz** (`pipx install pypykatz`).
 - **Detection:** heavily signatured by AV/EDR. In a real engagement it is usually caught; use it knowingly in labs.
 
