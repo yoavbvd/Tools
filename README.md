@@ -17,6 +17,8 @@
 
 This repo ships a **dark-themed single-page UI** ([`index.html`](index.html)) with a per-folder view of every page, rendered in the browser with copy-to-clipboard on each command block.
 
+It also includes a **🔍 full-text search** and a **📓 Lab Notebook** — an interactive per-phase checklist with notes that saves in your browser and exports your run as a Markdown or HTML report (nothing is uploaded).
+
 > **▶ Live site: [yoavbvd.github.io/Tools](https://yoavbvd.github.io/Tools/)**
 
 Run it locally with `python3 -m http.server`, then open `index.html`. (Opening the file with `file://` won't work — the browser blocks local `fetch` of the Markdown pages.)
