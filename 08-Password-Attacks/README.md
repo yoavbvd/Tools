@@ -55,4 +55,4 @@ Then crack `hash.txt` with john or hashcat.
 ## Wordlists & rules
 - `rockyou.txt` — ships at `/usr/share/wordlists/rockyou.txt.gz` on Kali (`gunzip` it first).
 - **SecLists** (`sudo apt install seclists`) — `/usr/share/seclists/Passwords/` has many focused lists.
-- Generate a target-specific list: `cewl http://10.10.10.50 -w custom.txt` (`-w` output file) scrapes words from the site.
+- Generate a target-specific list: `cewl http://$IP -w custom.txt` (`-w` output file) scrapes words from the site.

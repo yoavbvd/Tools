@@ -13,7 +13,7 @@ Enumerate and test HTTP/HTTPS services: hidden content, parameters, and common w
 
 ```bash
 ffuf -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt \
-     -u http://10.10.10.50/FUZZ -mc 200,301,302,403 -recursion -recursion-depth 2
+     -u http://$IP/FUZZ -mc 200,301,302,403 -recursion -recursion-depth 2
 ```
 **Flags:**
 - `-w` — wordlist. `FUZZ` in the URL is where each word is inserted.
@@ -24,7 +24,7 @@ ffuf -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt \
 
 ```bash
 # Virtual host discovery
-ffuf -w subs.txt -u http://10.10.10.50 -H "Host: FUZZ.target.com" -fs 0
+ffuf -w subs.txt -u http://$IP -H "Host: FUZZ.target.com" -fs 0
 ```
 - `-H` — add a header; here the `Host` header is fuzzed to find name-based vhosts. `-fs 0` filters empty responses (tune to the default size).
 
@@ -34,7 +34,7 @@ ffuf -w subs.txt -u http://10.10.10.50 -H "Host: FUZZ.target.com" -fs 0
 - **Install:** `sudo apt install gobuster`
 
 ```bash
-gobuster dir -u http://10.10.10.50 -w wordlist.txt -x php,txt,html -t 50
+gobuster dir -u http://$IP -w wordlist.txt -x php,txt,html -t 50
 ```
 - `dir` — directory/file mode (`dns`, `vhost` are other modes). `-u` — URL. `-w` — wordlist.
 - `-x php,txt,html` — append these extensions to each word (finds `admin.php`, `notes.txt`).
@@ -45,7 +45,7 @@ gobuster dir -u http://10.10.10.50 -w wordlist.txt -x php,txt,html -t 50
 ## feroxbuster — recursive content discovery
 - **Install:** `sudo apt install feroxbuster`
 ```bash
-feroxbuster -u http://10.10.10.50 -w wordlist.txt -x php,txt -d 2 -C 404,403
+feroxbuster -u http://$IP -w wordlist.txt -x php,txt -d 2 -C 404,403
 ```
 - `-u` URL, `-w` wordlist, `-x` extensions. `-d 2` — recursion depth. `-C 404,403` — filter out these status codes. Recurses automatically by default.
 
@@ -54,7 +54,7 @@ feroxbuster -u http://10.10.10.50 -w wordlist.txt -x php,txt -d 2 -C 404,403
 ## nikto — web server scanner
 - **Install:** `sudo apt install nikto`
 ```bash
-nikto -h http://10.10.10.50 -p 80,443 -o nikto.txt
+nikto -h http://$IP -p 80,443 -o nikto.txt
 ```
 - `-h` host. `-p` ports. `-o` output file. Flags common misconfigs, dangerous files, and outdated software.
 
@@ -63,7 +63,7 @@ nikto -h http://10.10.10.50 -p 80,443 -o nikto.txt
 ## nuclei — template-based scanner
 - **Install:** `go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest`
 ```bash
-nuclei -u http://10.10.10.50 -severity critical,high,medium -o nuclei.txt
+nuclei -u http://$IP -severity critical,high,medium -o nuclei.txt
 ```
 - `-u` target. `-severity` — only run templates of these severities. `-t <dir>` — run a specific template set. `-o` — output.
 
@@ -72,7 +72,7 @@ nuclei -u http://10.10.10.50 -severity critical,high,medium -o nuclei.txt
 ## wpscan — WordPress scanner
 - **Install:** `sudo apt install wpscan`
 ```bash
-wpscan --url http://10.10.10.50 --enumerate u,vp,ap
+wpscan --url http://$IP --enumerate u,vp,ap
 ```
 - `--url` target. `--enumerate u` — users, `vp` — vulnerable plugins, `ap` — all plugins. Add `--api-token <t>` for vuln data.
 

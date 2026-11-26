@@ -180,7 +180,7 @@ nav button .num{color:var(--muted);font-family:var(--mono);font-size:11px;min-wi
       <input id="search" type="search" placeholder="Search ( / )  —  tools, flags, commands" autocomplete="off" spellcheck="false">
       <div id="results" hidden></div>
     </div>
-    <button id="targetbtn"><span class="dot"></span><span id="targetlabel">Set Target</span><span class="sub2" id="targetsub">RHOST…</span></button>
+    <button id="targetbtn"><span class="dot"></span><span id="targetlabel">Set Target</span><span class="sub2" id="targetsub">Target IP…</span></button>
     <nav id="nav"></nav>
   </aside>
   <div id="main">
@@ -191,7 +191,7 @@ nav button .num{color:var(--muted);font-family:var(--mono);font-size:11px;min-wi
 <div id="scrim"></div>
 <div id="varmodal"><div class="box">
   <h2>🎯 Set Target</h2>
-  <p class="hint">Fill in what you know. Every matching value in the commands across the site is replaced with yours (like Metasploit's RHOSTS). Saved in this browser only.</p>
+  <p class="hint">Enter your target's IP address. Every <code>$IP</code> in the commands across the site is replaced with it. Saved in this browser only.</p>
   <div id="varfields"></div>
   <div class="acts">
     <button class="primary" id="varapply">Apply</button>
@@ -551,15 +551,7 @@ const VARS_KEY='tools_target_vars_v1';
 // Each var: which exact tokens and literal placeholders in the docs it replaces.
 // `word` = a bare word replaced only in clear command contexts (surrounded by space/slash/colon/quote).
 const VAR_DEFS=[
- {k:'rhost',  label:'Target IP (RHOST)',      tok:'$IP',     ph:'10.10.10.50', tokens:['$IP'],      lits:['10.10.10.50']},
- {k:'dcip',   label:'Domain Controller IP',   tok:'',        ph:'10.10.10.10', lits:['10.10.10.10']},
- {k:'lhost',  label:'Your IP (LHOST)',        tok:'$LHOST',  ph:'10.10.14.5',  tokens:['$LHOST'],   lits:['10.10.14.5']},
- {k:'lport',  label:'Listener port (LPORT)',  tok:'$LPORT',  ph:'443',         tokens:['$LPORT']},
- {k:'user',   label:'Username',               tok:'$USER',   ph:'jdoe',        tokens:['$USER'],    word:'user'},
- {k:'pass',   label:'Password',               tok:'$PASS',   ph:'P@ssw0rd!',   tokens:['$PASS'],    word:'pass'},
- {k:'nthash', label:'NT hash',                tok:'<NTHASH>',ph:'aad3b4...',   tokens:['<NTHASH>','NTHASH']},
- {k:'domain', label:'Domain',                 tok:'$DOMAIN', ph:'corp.local',  tokens:['$DOMAIN'],  lits:['domain.local']},
- {k:'webhost',label:'Web host / URL',         tok:'',        ph:'target.htb',  lits:['target.com']},
+ {k:'rhost', label:'Target IP', tok:'$IP', ph:'e.g. 192.168.45.200', tokens:['$IP']},
 ];
 function loadVars(){ try{ const s=localStorage.getItem(VARS_KEY); if(s) return JSON.parse(s); }catch(e){} return {}; }
 let vars=loadVars();
@@ -571,7 +563,7 @@ function refreshTargetBtn(){
   const active=varsActive();
   tbtn.classList.toggle('set',active);
   document.getElementById('targetlabel').textContent=active?'Target set':'Set Target';
-  document.getElementById('targetsub').textContent=active?(vars.rhost||vars.domain||'edit'):'RHOST…';
+  document.getElementById('targetsub').textContent=active?(vars.rhost||'edit'):'Target IP…';
 }
 function openVarModal(){
   vfields.innerHTML=VAR_DEFS.map(d=>`<div class="row"><label>${d.label} ${d.tok?`<span class="tok">${esc(d.tok)}</span>`:''}</label>

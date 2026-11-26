@@ -34,12 +34,12 @@ nxc smb 10.10.10.0/24 -u users.txt -p 'Winter2026!' --continue-on-success
 - **Install:** `sudo apt install dnsutils dnsrecon`
 
 ```bash
-dig axfr @10.10.10.50 domain.local
+dig axfr @$IP domain.local
 ```
-- `axfr` — request a full **zone transfer** (dumps every record if the server is misconfigured). `@10.10.10.50` — query this DNS server directly.
+- `axfr` — request a full **zone transfer** (dumps every record if the server is misconfigured). `@$IP` — query this DNS server directly.
 
 ```bash
-dnsrecon -d domain.local -n 10.10.10.50 -a
+dnsrecon -d domain.local -n $IP -a
 ```
 - `-d` — domain. `-n` — name server to use. `-a` — also attempt a zone transfer.
 
