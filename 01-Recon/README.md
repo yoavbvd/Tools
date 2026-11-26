@@ -13,7 +13,7 @@ Map the target: discover hosts, open ports, services, subdomains, and public exp
 - **Install:** `sudo apt install nmap`
 
 ```bash
-nmap -sC -sV -p- --min-rate 1000 -oA scans/tcp 10.10.10.50
+nmap -sC -sV -p- --min-rate 1000 -oA scans/tcp $IP
 ```
 **Flags:**
 - `-sC` — run the default safe NSE scripts (banner, titles, common checks).
@@ -23,12 +23,12 @@ nmap -sC -sV -p- --min-rate 1000 -oA scans/tcp 10.10.10.50
 - `-oA scans/tcp` — write output in all three formats (`.nmap`, `.gnmap`, `.xml`) using the base name `scans/tcp`.
 
 ```bash
-sudo nmap -sU --top-ports 100 -oN scans/udp.txt 10.10.10.50
+sudo nmap -sU --top-ports 100 -oN scans/udp.txt $IP
 ```
 - `-sU` — UDP scan (needs root; slower than TCP). `--top-ports 100` — the 100 most common UDP ports. `-oN` — normal human-readable output.
 
 ```bash
-nmap --script "smb-vuln*" -p445 10.10.10.50
+nmap --script "smb-vuln*" -p445 $IP
 ```
 - `--script "smb-vuln*"` — run every NSE script whose name starts with `smb-vuln` (category/wildcard selection).
 
@@ -41,7 +41,7 @@ Timing: add `-T4` for a faster scan on reliable networks (`-T0`..`-T5`, higher =
 - **Install:** `cargo install rustscan`, or the official Docker image.
 
 ```bash
-rustscan -a 10.10.10.50 --ulimit 5000 -- -sC -sV
+rustscan -a $IP --ulimit 5000 -- -sC -sV
 ```
 **Flags:**
 - `-a` — address/target (single IP, CIDR, or comma list).
@@ -89,6 +89,6 @@ amass enum -d target.com -o amass.txt
 ## whatweb — web technology fingerprint
 - **Install:** `sudo apt install whatweb`
 ```bash
-whatweb -a 3 http://10.10.10.50
+whatweb -a 3 http://$IP
 ```
 - `-a 3` — aggression level 3 (thorough; sends more requests). Levels 1 (stealthy) to 4 (heavy).
