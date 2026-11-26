@@ -6,6 +6,7 @@ Static analysis of suspicious documents and files: extract macros, carve embedde
 
 ## Contents
 - [OLEdump](OLEdump.md) — analyze OLE / Microsoft Office files and extract macros.
+- [Crypto, RSA & Encoding](Crypto-and-Encoding.md) — RSA/CTF crypto tools (dCode, FactorDB, RsaCtfTool), CyberChef, JS deobfuscators.
 
 ## Tool index
 
