@@ -4,6 +4,13 @@ A phase-by-phase cybersecurity and penetration-testing knowledge base: tools, ch
 
 > **For educational purposes only, and only for lab-controlled, authorized penetration testing.** Run active techniques only against systems you own or are explicitly authorized to test.
 
+## 🖥️ Browsable UI
+
+This repo ships a dark-themed single-page UI (`index.html`) with a per-folder view of every page, rendered in the browser with copy-to-clipboard on command blocks.
+
+- **Live (GitHub Pages):** enable Pages in **Settings → Pages → Source: `main` / root**, then open `https://yoavbvd.github.io/Tools/`.
+- **Local:** serve the folder (`python3 -m http.server`) and open `index.html`. Opening the file directly with `file://` will not work, because the browser blocks local `fetch` of the Markdown pages.
+
 ---
 
 ## 🚀 Start here
