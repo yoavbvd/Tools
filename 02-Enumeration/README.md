@@ -11,24 +11,39 @@ Enumerate each open service in depth. Pick the page for the port you found.
 - HTTP/HTTPS (80/443) → see [03-Web](../03-Web/)
 - Kerberos / AD services (88/389/445) → see [06-Active-Directory](../06-Active-Directory/)
 
-## General multi-protocol tools
+---
 
-### netexec (nxc) — successor to CrackMapExec
+## netexec (nxc) — successor to CrackMapExec
 - **Purpose:** enumerate and test credentials across SMB, WinRM, LDAP, MSSQL, SSH, FTP, and more.
 - **Install:** `pipx install git+https://github.com/Pennyw0rth/NetExec`
 
-| Task | Command |
-| --- | --- |
-| SMB host info | `nxc smb $IP` |
-| Credential check | `nxc smb $IP -u user -p pass` |
-| Password spray | `nxc smb $IP -u users.txt -p 'Winter2026!' --continue-on-success` |
-| List shares | `nxc smb $IP -u user -p pass --shares` |
+```bash
+nxc smb 10.10.10.0/24 -u users.txt -p 'Winter2026!' --continue-on-success
+```
+**Flags:**
+- `smb` — the protocol module (`winrm`, `ldap`, `mssql`, `ssh`, `ftp` are others).
+- `-u` — username or a file of usernames. `-p` — password or a file of passwords.
+- `--continue-on-success` — keep going after the first valid login (needed for a full spray).
+- `--shares` — list shares and your access. `--rid-brute` — enumerate domain users via RID cycling. `--users` — pull the user list.
 
-### DNS enumeration
-- **Purpose:** resolve names, attempt zone transfers, find records.
+> A `Pwn3d!` in nxc output means the credential has admin rights on that host.
+
+---
+
+## DNS enumeration
 - **Install:** `sudo apt install dnsutils dnsrecon`
 
-| Task | Command |
-| --- | --- |
-| Zone transfer attempt | `dig axfr @$IP domain.local` |
-| Record sweep | `dnsrecon -d domain.local -n $IP` |
+```bash
+dig axfr @10.10.10.50 domain.local
+```
+- `axfr` — request a full **zone transfer** (dumps every record if the server is misconfigured). `@10.10.10.50` — query this DNS server directly.
+
+```bash
+dnsrecon -d domain.local -n 10.10.10.50 -a
+```
+- `-d` — domain. `-n` — name server to use. `-a` — also attempt a zone transfer.
+
+---
+
+## General port/service sweep reference
+After the initial nmap (see [01-Recon](../01-Recon/)), work each open port top-down. Do not skip "boring" ports — a forgotten FTP or SNMP service is a common foothold.
