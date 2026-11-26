@@ -120,6 +120,30 @@ nav button .num{color:var(--muted);font-family:var(--mono);font-size:11px;min-wi
 .nb .ntitle{font-size:11px;color:var(--muted);font-family:var(--mono);margin:10px 0 4px;text-transform:uppercase}
 .nb .save{font-size:11px;color:var(--muted);font-family:var(--mono)}
 .nb .save.ok{color:var(--accent)}
+/* Target variables */
+#targetbtn{display:flex;align-items:center;gap:8px;width:calc(100% - 24px);margin:10px 12px 0;padding:8px 10px;
+  background:var(--panel2);border:1px solid var(--border);border-radius:7px;color:var(--fg);font-family:var(--sans);
+  font-size:12.5px;cursor:pointer;text-align:left}
+#targetbtn:hover{border-color:var(--accent2)}
+#targetbtn.set{border-color:var(--accent2);background:rgba(43,196,255,.08)}
+#targetbtn .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:0 0 auto}
+#targetbtn.set .dot{background:var(--accent2);box-shadow:0 0 6px var(--accent2)}
+#targetbtn .sub2{color:var(--muted);font-family:var(--mono);font-size:10.5px;margin-left:auto}
+#varmodal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+#varmodal.open{display:flex}
+#varmodal .box{width:100%;max-width:460px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px}
+#varmodal h2{margin:0 0 4px;font-size:18px}
+#varmodal .hint{color:var(--muted);font-size:12px;margin:0 0 16px}
+#varmodal .row{margin-bottom:11px}
+#varmodal label{display:block;font-size:10.5px;color:var(--muted);font-family:var(--mono);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+#varmodal label .tok{color:var(--accent2);text-transform:none}
+#varmodal input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--fg);font-family:var(--mono);font-size:12.5px;padding:8px 10px;outline:none}
+#varmodal input:focus{border-color:var(--accent)}
+#varmodal .acts{display:flex;gap:9px;margin-top:16px}
+#varmodal button{flex:1;padding:9px;border-radius:8px;border:1px solid var(--border);background:var(--panel2);color:var(--fg);font-size:13px;cursor:pointer}
+#varmodal button.primary{background:var(--accent2);color:#042;font-weight:700;border-color:transparent}
+#varmodal button:hover{filter:brightness(1.08)}
+.md .var{background:rgba(43,196,255,.22);color:#dff3ff;border-radius:3px;padding:0 2px;font-weight:600}
 /* Rendered markdown */
 .md h1{font-size:25px;border-bottom:1px solid var(--border);padding-bottom:10px;margin-top:0}
 .md h2{font-size:20px;margin-top:30px;border-bottom:1px solid var(--border);padding-bottom:6px}
@@ -156,6 +180,7 @@ nav button .num{color:var(--muted);font-family:var(--mono);font-size:11px;min-wi
       <input id="search" type="search" placeholder="Search ( / )  —  tools, flags, commands" autocomplete="off" spellcheck="false">
       <div id="results" hidden></div>
     </div>
+    <button id="targetbtn"><span class="dot"></span><span id="targetlabel">Set Target</span><span class="sub2" id="targetsub">RHOST…</span></button>
     <nav id="nav"></nav>
   </aside>
   <div id="main">
@@ -164,6 +189,16 @@ nav button .num{color:var(--muted);font-family:var(--mono);font-size:11px;min-wi
   </div>
 </div>
 <div id="scrim"></div>
+<div id="varmodal"><div class="box">
+  <h2>🎯 Set Target</h2>
+  <p class="hint">Fill in what you know. Every matching value in the commands across the site is replaced with yours (like Metasploit's RHOSTS). Saved in this browser only.</p>
+  <div id="varfields"></div>
+  <div class="acts">
+    <button class="primary" id="varapply">Apply</button>
+    <button id="varclear">Clear</button>
+    <button id="varclose">Close</button>
+  </div>
+</div></div>
 <script>
 const SECTIONS = [{"id": "home", "label": "Home", "icon": "🏠", "num": "", "files": []}, {"id": "guides", "label": "Guides", "icon": "📖", "num": "", "files": [{"path": "START-A-PENTEST-LAB.md", "title": "Start a Pentest Lab"}, {"path": "Pentesting-Field-Guide.md", "title": "Pentesting Field Guide"}, {"path": "Cyber-Kill-Chain.md", "title": "Cyber Kill Chain"}]}, {"id": "00-Lab-Setup", "label": "Lab Setup", "num": "00", "icon": "🧰", "files": [{"path": "00-Lab-Setup/README.md", "title": "Overview"}]}, {"id": "01-Recon", "label": "Recon", "num": "01", "icon": "🔭", "files": [{"path": "01-Recon/README.md", "title": "Overview"}, {"path": "01-Recon/Internet-Scanners-and-Threat-Intel.md", "title": "Internet Scanners and Threat Intel"}, {"path": "01-Recon/OSINT-Toolkit.md", "title": "OSINT Toolkit"}]}, {"id": "02-Enumeration", "label": "Enumeration", "num": "02", "icon": "📡", "files": [{"path": "02-Enumeration/README.md", "title": "Overview"}, {"path": "02-Enumeration/FTP.md", "title": "FTP"}, {"path": "02-Enumeration/LDAP.md", "title": "LDAP"}, {"path": "02-Enumeration/SMB.md", "title": "SMB"}, {"path": "02-Enumeration/SNMP.md", "title": "SNMP"}, {"path": "02-Enumeration/SSH.md", "title": "SSH"}]}, {"id": "03-Web", "label": "Web", "num": "03", "icon": "🌐", "files": [{"path": "03-Web/README.md", "title": "Overview"}, {"path": "03-Web/Client-Side-JavaScript-Security.md", "title": "Client Side JavaScript Security"}]}, {"id": "04-Exploitation", "label": "Exploitation", "num": "04", "icon": "💥", "files": [{"path": "04-Exploitation/README.md", "title": "Overview"}, {"path": "04-Exploitation/Reverse-Shells.md", "title": "Reverse Shells"}]}, {"id": "05-Privilege-Escalation", "label": "Privilege Escalation", "num": "05", "icon": "🔼", "files": [{"path": "05-Privilege-Escalation/README.md", "title": "Overview"}, {"path": "05-Privilege-Escalation/GTFOBins.md", "title": "GTFOBins"}, {"path": "05-Privilege-Escalation/LOLBAS.md", "title": "LOLBAS"}, {"path": "05-Privilege-Escalation/Linux.md", "title": "Linux"}, {"path": "05-Privilege-Escalation/Windows.md", "title": "Windows"}]}, {"id": "06-Active-Directory", "label": "Active Directory", "num": "06", "icon": "🏛️", "files": [{"path": "06-Active-Directory/README.md", "title": "Overview"}, {"path": "06-Active-Directory/Kerberos-Tickets.md", "title": "Kerberos Tickets"}, {"path": "06-Active-Directory/Windows-Server-AD-Lab-Setup.md", "title": "Windows Server AD Lab Setup"}]}, {"id": "07-Post-Exploitation-Pivoting", "label": "Post Exploitation Pivoting", "num": "07", "icon": "🔀", "files": [{"path": "07-Post-Exploitation-Pivoting/README.md", "title": "Overview"}]}, {"id": "08-Password-Attacks", "label": "Password Attacks", "num": "08", "icon": "🔑", "files": [{"path": "08-Password-Attacks/README.md", "title": "Overview"}]}, {"id": "09-Reporting", "label": "Reporting", "num": "09", "icon": "📝", "files": [{"path": "09-Reporting/README.md", "title": "Overview"}]}, {"id": "10-Analysis-Forensics", "label": "Analysis Forensics", "num": "10", "icon": "🔬", "files": [{"path": "10-Analysis-Forensics/README.md", "title": "Overview"}, {"path": "10-Analysis-Forensics/Crypto-and-Encoding.md", "title": "Crypto and Encoding"}, {"path": "10-Analysis-Forensics/OLEdump.md", "title": "OLEdump"}]}, {"id": "11-Persistence", "label": "Persistence", "num": "11", "icon": "🪝", "files": [{"path": "11-Persistence/README.md", "title": "Overview"}, {"path": "11-Persistence/Linux.md", "title": "Linux"}, {"path": "11-Persistence/Windows.md", "title": "Windows"}]}, {"id": "OSCP", "label": "OSCP", "num": "", "icon": "🎓", "files": [{"path": "OSCP/README.md", "title": "Overview"}, {"path": "OSCP/Cheat-Sheet.md", "title": "Cheat Sheet"}, {"path": "OSCP/Exam-Format.md", "title": "Exam Format"}, {"path": "OSCP/Methodology.md", "title": "Methodology"}, {"path": "OSCP/Practice-Resources.md", "title": "Practice Resources"}, {"path": "OSCP/Report-Tips.md", "title": "Report Tips"}, {"path": "OSCP/Restricted-Tools.md", "title": "Restricted Tools"}]}, {"id": "Misc", "label": "Misc", "num": "", "icon": "🧩", "files": [{"path": "Misc/README.md", "title": "Overview"}, {"path": "Misc/AI-Assisted-Pentesting-and-Adversary-Emulation.md", "title": "AI Assisted Pentesting and Adversary Emulation"}]}];
 const nav=document.getElementById('nav'), content=document.getElementById('content'),
@@ -266,9 +301,7 @@ function renderHome(){
      <div class="cta">
        <a class="btn primary" href="#/guides">🚀 Start a Pentest Lab</a>
        <a class="btn" href="#/notebook">📓 Lab Notebook</a>
-       <a class="btn" href="#/04-Exploitation%2FReverse-Shells.md">🐚 Reverse Shells</a>
-       <a class="btn" href="https://www.revshells.com" target="_blank" rel="noopener">↗ revshells.com</a>
-       <a class="btn" href="#/Cyber-Kill-Chain.md">⛓ Kill Chain</a>
+       <a class="btn" href="#/Pentesting-Field-Guide.md">📖 Field Guide</a>
      </div>
      <div class="stats">
        <div class="stat"><b>${phaseCount}</b>phases</div>
@@ -296,6 +329,7 @@ async function renderFile(sec,file){
     mdEl.innerHTML=marked.parse(text);
     addHeadingIds(mdEl);
     rewriteLinks(mdEl,file.path);
+    applyVars(mdEl);
     addCopyButtons(mdEl);
     content.scrollIntoView({block:'start'});
     if(pendingHighlight){ const q=pendingHighlight; pendingHighlight=null; applyHighlight(mdEl,q); }
@@ -511,6 +545,82 @@ function renderNotebook(){
   content.querySelector('#nbreset').onclick=()=>{ if(confirm('Clear all notebook data saved in this browser?')){ lab={meta:{},checks:{},notes:{},summary:''}; saveLab(); renderNotebook(); } };
   updateProgress();
 }
+
+// ---------- Target variables (Metasploit-style fill-in) ----------
+const VARS_KEY='tools_target_vars_v1';
+// Each var: which exact tokens and literal placeholders in the docs it replaces.
+// `word` = a bare word replaced only in clear command contexts (surrounded by space/slash/colon/quote).
+const VAR_DEFS=[
+ {k:'rhost',  label:'Target IP (RHOST)',      tok:'$IP',     ph:'10.10.10.50', tokens:['$IP'],      lits:['10.10.10.50']},
+ {k:'dcip',   label:'Domain Controller IP',   tok:'',        ph:'10.10.10.10', lits:['10.10.10.10']},
+ {k:'lhost',  label:'Your IP (LHOST)',        tok:'$LHOST',  ph:'10.10.14.5',  tokens:['$LHOST'],   lits:['10.10.14.5']},
+ {k:'lport',  label:'Listener port (LPORT)',  tok:'$LPORT',  ph:'443',         tokens:['$LPORT']},
+ {k:'user',   label:'Username',               tok:'$USER',   ph:'jdoe',        tokens:['$USER'],    word:'user'},
+ {k:'pass',   label:'Password',               tok:'$PASS',   ph:'P@ssw0rd!',   tokens:['$PASS'],    word:'pass'},
+ {k:'nthash', label:'NT hash',                tok:'<NTHASH>',ph:'aad3b4...',   tokens:['<NTHASH>','NTHASH']},
+ {k:'domain', label:'Domain',                 tok:'$DOMAIN', ph:'corp.local',  tokens:['$DOMAIN'],  lits:['domain.local']},
+ {k:'webhost',label:'Web host / URL',         tok:'',        ph:'target.htb',  lits:['target.com']},
+];
+function loadVars(){ try{ const s=localStorage.getItem(VARS_KEY); if(s) return JSON.parse(s); }catch(e){} return {}; }
+let vars=loadVars();
+function saveVars(){ try{ localStorage.setItem(VARS_KEY,JSON.stringify(vars)); }catch(e){} }
+function varsActive(){ return Object.values(vars).some(v=>v&&v.trim()); }
+
+const tbtn=document.getElementById('targetbtn'), vmodal=document.getElementById('varmodal'), vfields=document.getElementById('varfields');
+function refreshTargetBtn(){
+  const active=varsActive();
+  tbtn.classList.toggle('set',active);
+  document.getElementById('targetlabel').textContent=active?'Target set':'Set Target';
+  document.getElementById('targetsub').textContent=active?(vars.rhost||vars.domain||'edit'):'RHOST…';
+}
+function openVarModal(){
+  vfields.innerHTML=VAR_DEFS.map(d=>`<div class="row"><label>${d.label} ${d.tok?`<span class="tok">${esc(d.tok)}</span>`:''}</label>
+    <input data-var="${d.k}" value="${esc(vars[d.k]||'')}" placeholder="${esc(d.ph)}"></div>`).join('');
+  vmodal.classList.add('open');
+  const first=vfields.querySelector('input'); if(first) first.focus();
+}
+function closeVarModal(){ vmodal.classList.remove('open'); }
+tbtn.onclick=openVarModal;
+document.getElementById('varclose').onclick=closeVarModal;
+vmodal.addEventListener('click',e=>{ if(e.target===vmodal) closeVarModal(); });
+document.getElementById('varapply').onclick=()=>{
+  vfields.querySelectorAll('input').forEach(i=>{ const v=i.value.trim(); if(v) vars[i.dataset.var]=v; else delete vars[i.dataset.var]; });
+  saveVars(); refreshTargetBtn(); closeVarModal(); render();   // re-render current page with substitutions
+};
+document.getElementById('varclear').onclick=()=>{ vars={}; saveVars(); refreshTargetBtn(); closeVarModal(); render(); };
+
+function escRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+function applyVars(root){
+  if(!varsActive()) return;
+  try{
+    const alts=[];
+    VAR_DEFS.forEach(d=>{ const val=vars[d.k]; if(!val) return;
+      (d.tokens||[]).forEach(t=>alts.push({pat:escRe(t),val}));
+      (d.lits||[]).forEach(t=>alts.push({pat:escRe(t),val}));
+      if(d.word) alts.push({pat:"(?<=[\\s/:'\"(=])"+escRe(d.word)+"(?=[\\s:'\"@),]|$)",val});
+    });
+    if(!alts.length) return;
+    // longest literal patterns first so e.g. 10.10.10.50 wins over a prefix
+    alts.sort((a,b)=>b.pat.length-a.pat.length);
+    const combined=new RegExp(alts.map(a=>'('+a.pat+')').join('|'),'g');
+    const vals=alts.map(a=>a.val);
+    root.querySelectorAll('pre code, code').forEach(code=>{
+      const txt=code.textContent; combined.lastIndex=0;
+      if(!combined.test(txt)){ combined.lastIndex=0; return; }
+      combined.lastIndex=0; let out='',last=0,m;
+      while((m=combined.exec(txt))){
+        out+=htmlEsc(txt.slice(last,m.index));
+        let gi=0; for(let i=1;i<m.length;i++){ if(m[i]!==undefined){ gi=i-1; break; } }
+        out+='<span class="var">'+htmlEsc(vals[gi])+'</span>';
+        last=m.index+m[0].length;
+        if(m[0]==='') combined.lastIndex++;
+      }
+      out+=htmlEsc(txt.slice(last));
+      code.innerHTML=out;
+    });
+  }catch(e){ /* lookbehind unsupported or bad regex: leave commands unchanged */ }
+}
+refreshTargetBtn();
 
 window.addEventListener('hashchange',render);
 buildNav(); render(); buildIndex();
