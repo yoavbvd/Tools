@@ -12,7 +12,6 @@ Enumerate and attack Windows domains. Start with low-privilege domain credential
 - **Purpose:** graph relationships to find paths to high-value objects.
 - **Install:** BloodHound Community Edition; collect with `bloodhound-python`.
 - Collect: `bloodhound-python -u user -p pass -d domain.local -ns $IP -c All`
-- **OSCP note:** only BloodHound Legacy / Community Edition are permitted — verify current policy.
 
 ### kerbrute — user enumeration and password spray
 - **Install:** download the `kerbrute` binary from its releases page.
@@ -39,7 +38,6 @@ Enumerate and attack Windows domains. Start with low-privilege domain credential
 ### responder — LLMNR/NBT-NS poisoning (lab use)
 - **Install:** `sudo apt install responder`
 - Capture net-NTLM hashes on a segment you are authorized to test: `sudo responder -I eth0`
-- **OSCP note:** spoofing/poisoning techniques are **prohibited** in the exam.
 
 ### netexec (nxc)
 - Covered in [02-Enumeration](../02-Enumeration/README.md); central to AD credential validation and spraying.

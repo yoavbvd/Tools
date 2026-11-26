@@ -54,5 +54,3 @@ Enumerate and test HTTP/HTTPS services: hidden content, parameters, and common w
 | Test a saved request | `sqlmap -r request.txt --batch` |
 | Enumerate databases | `sqlmap -r request.txt --batch --dbs` |
 | Dump a table | `sqlmap -r request.txt --batch -D db -T users --dump` |
-
-> **OSCP note:** sqlmap and other automatic exploitation tools are **prohibited** in the OSCP exam. Learn manual SQL injection for the exam. See [OSCP/Restricted-Tools](../OSCP/Restricted-Tools.md).
