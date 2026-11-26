@@ -29,6 +29,7 @@ Run it locally with `python3 -m http.server`, then open `index.html`. (Opening t
 
 - **[START-A-PENTEST-LAB.md](START-A-PENTEST-LAB.md)** — step-by-step checklist to bring up a lab and begin.
 - **[Pentesting-Field-Guide.md](Pentesting-Field-Guide.md)** — the cross-phase operational methodology (network, web, Active Directory).
+- **[Cyber-Kill-Chain.md](Cyber-Kill-Chain.md)** — the 7 kill-chain stages mapped to every folder and to MITRE ATT&CK.
 
 ---
 
@@ -41,12 +42,13 @@ Run it locally with `python3 -m http.server`, then open `index.html`. (Opening t
 | 02 | **[Enumeration](02-Enumeration/)** | Per-service: [FTP](02-Enumeration/FTP.md) · [SSH](02-Enumeration/SSH.md) · [SMB](02-Enumeration/SMB.md) · [SNMP](02-Enumeration/SNMP.md) · [LDAP](02-Enumeration/LDAP.md) · netexec |
 | 03 | **[Web](03-Web/)** | ffuf, gobuster, feroxbuster, nikto, nuclei, wpscan, sqlmap, [client-side JS](03-Web/Client-Side-JavaScript-Security.md) |
 | 04 | **[Exploitation](04-Exploitation/)** | searchsploit, hydra, msfvenom, file transfer, [reverse shells](04-Exploitation/Reverse-Shells.md) |
-| 05 | **[Privilege Escalation](05-Privilege-Escalation/)** | [Linux](05-Privilege-Escalation/Linux.md) & [Windows](05-Privilege-Escalation/Windows.md): linpeas/winpeas, pspy, GTFOBins |
-| 06 | **[Active Directory](06-Active-Directory/)** | BloodHound, kerbrute, impacket, evil-winrm, certipy, responder |
+| 05 | **[Privilege Escalation](05-Privilege-Escalation/)** | [Linux](05-Privilege-Escalation/Linux.md) & [Windows](05-Privilege-Escalation/Windows.md): linpeas/winpeas, pspy, [GTFOBins](05-Privilege-Escalation/GTFOBins.md), [LOLBAS](05-Privilege-Escalation/LOLBAS.md) |
+| 06 | **[Active Directory](06-Active-Directory/)** | BloodHound, kerbrute, impacket, mimikatz, certipy, responder, [Kerberos golden/silver tickets](06-Active-Directory/Kerberos-Tickets.md) |
 | 07 | **[Post-Exploitation & Pivoting](07-Post-Exploitation-Pivoting/)** | ligolo-ng, chisel, SOCKS tunneling |
 | 08 | **[Password Attacks](08-Password-Attacks/)** | hashcat, john, `*2john`, wordlists |
 | 09 | **[Reporting](09-Reporting/)** | Evidence capture, report structure |
 | 10 | **[Analysis & Forensics](10-Analysis-Forensics/)** | [OLEdump](10-Analysis-Forensics/OLEdump.md), [Crypto/RSA](10-Analysis-Forensics/Crypto-and-Encoding.md), olevba, pdfid, exiftool, binwalk, yara |
+| 11 | **[Persistence](11-Persistence/)** | [Linux](11-Persistence/Linux.md) & [Windows](11-Persistence/Windows.md): cron, systemd, scheduled tasks, Run keys, WMI |
 
 **Other:** [Misc](Misc/) (AI-assisted & adversary-emulation notes) · [OSCP](OSCP/) (exam study notes — a side section).
 

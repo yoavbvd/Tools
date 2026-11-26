@@ -61,6 +61,32 @@ nav button .num{color:var(--muted);font-family:var(--mono);font-size:11px;min-wi
 .hero h1{margin:0 0 8px;font-size:24px}
 .hero .tag{color:var(--muted);font-family:var(--mono);font-size:13px}
 .hero .warn{margin-top:14px;font-size:12.5px;color:var(--danger);border-left:3px solid var(--danger);padding-left:10px}
+/* Home v2 */
+.hero2{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:16px;padding:34px 30px;margin-bottom:20px;
+  background:radial-gradient(1100px 380px at 8% -25%,rgba(57,217,138,.15),transparent 60%),radial-gradient(900px 380px at 112% 125%,rgba(43,196,255,.12),transparent 55%),linear-gradient(160deg,var(--panel),var(--bg))}
+.hero2 .badge{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:1.6px;color:var(--accent);
+  border:1px solid var(--border);border-radius:20px;padding:4px 11px;margin-bottom:14px;background:rgba(57,217,138,.06)}
+.hero2 h1{margin:0 0 10px;font-size:32px;line-height:1.12;letter-spacing:-.5px}
+.hero2 h1 .amp{color:var(--muted);font-weight:600}
+.hero2 .sub{color:var(--fg);opacity:.82;font-size:14px;max-width:620px;margin:0 0 18px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:9px 15px;border-radius:9px;
+  border:1px solid var(--border);background:var(--panel2);color:var(--fg);text-decoration:none;transition:.15s}
+.btn:hover{border-color:var(--accent);transform:translateY(-1px);text-decoration:none}
+.btn.primary{background:linear-gradient(135deg,var(--accent),#2bbd7a);color:#06240f;font-weight:700;border-color:transparent}
+.stats{display:flex;flex-wrap:wrap;gap:22px}
+.stat{font-size:12.5px;color:var(--muted)}
+.stat b{color:var(--accent);font-family:var(--mono);font-size:16px;margin-right:4px}
+.kcstrip{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:0 0 26px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--panel)}
+.kclabel{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:1px;margin-right:4px}
+.kcchip{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--fg);text-decoration:none;
+  padding:6px 11px;border-radius:20px;border:1px solid var(--border);background:var(--panel2)}
+.kcchip:hover{border-color:var(--accent2);text-decoration:none}
+.kcn{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--accent2);color:#042;font-size:10px;font-weight:700;font-family:var(--mono)}
+.kcar{color:var(--muted);font-size:11px}
+.shead{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1.4px;font-family:var(--mono);margin:0 0 12px}
+.warn2{margin-top:22px;font-size:12.5px;color:var(--danger);border:1px solid rgba(255,107,107,.3);background:rgba(255,107,107,.06);border-radius:9px;padding:10px 14px}
+@media(max-width:640px){.hero2{padding:26px 20px}.hero2 h1{font-size:25px}}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
 .card{border:1px solid var(--border);background:var(--panel);border-radius:10px;padding:16px;cursor:pointer;transition:border-color .15s,transform .15s}
 .card:hover{border-color:var(--accent);transform:translateY(-2px)}
@@ -139,7 +165,7 @@ nav button .num{color:var(--muted);font-family:var(--mono);font-size:11px;min-wi
 </div>
 <div id="scrim"></div>
 <script>
-const SECTIONS = [{"id": "home", "label": "Home", "icon": "🏠", "num": "", "files": []}, {"id": "guides", "label": "Guides", "icon": "📖", "num": "", "files": [{"path": "START-A-PENTEST-LAB.md", "title": "Start a Pentest Lab"}, {"path": "Pentesting-Field-Guide.md", "title": "Pentesting Field Guide"}]}, {"id": "00-Lab-Setup", "label": "Lab Setup", "num": "00", "icon": "🧰", "files": [{"path": "00-Lab-Setup/README.md", "title": "Overview"}]}, {"id": "01-Recon", "label": "Recon", "num": "01", "icon": "🔭", "files": [{"path": "01-Recon/README.md", "title": "Overview"}, {"path": "01-Recon/Internet-Scanners-and-Threat-Intel.md", "title": "Internet Scanners and Threat Intel"}, {"path": "01-Recon/OSINT-Toolkit.md", "title": "OSINT Toolkit"}]}, {"id": "02-Enumeration", "label": "Enumeration", "num": "02", "icon": "📡", "files": [{"path": "02-Enumeration/README.md", "title": "Overview"}, {"path": "02-Enumeration/FTP.md", "title": "FTP"}, {"path": "02-Enumeration/LDAP.md", "title": "LDAP"}, {"path": "02-Enumeration/SMB.md", "title": "SMB"}, {"path": "02-Enumeration/SNMP.md", "title": "SNMP"}, {"path": "02-Enumeration/SSH.md", "title": "SSH"}]}, {"id": "03-Web", "label": "Web", "num": "03", "icon": "🌐", "files": [{"path": "03-Web/README.md", "title": "Overview"}, {"path": "03-Web/Client-Side-JavaScript-Security.md", "title": "Client Side JavaScript Security"}]}, {"id": "04-Exploitation", "label": "Exploitation", "num": "04", "icon": "💥", "files": [{"path": "04-Exploitation/README.md", "title": "Overview"}, {"path": "04-Exploitation/Reverse-Shells.md", "title": "Reverse Shells"}]}, {"id": "05-Privilege-Escalation", "label": "Privilege Escalation", "num": "05", "icon": "🔼", "files": [{"path": "05-Privilege-Escalation/README.md", "title": "Overview"}, {"path": "05-Privilege-Escalation/Linux.md", "title": "Linux"}, {"path": "05-Privilege-Escalation/Windows.md", "title": "Windows"}]}, {"id": "06-Active-Directory", "label": "Active Directory", "num": "06", "icon": "🏛️", "files": [{"path": "06-Active-Directory/README.md", "title": "Overview"}, {"path": "06-Active-Directory/Windows-Server-AD-Lab-Setup.md", "title": "Windows Server AD Lab Setup"}]}, {"id": "07-Post-Exploitation-Pivoting", "label": "Post Exploitation Pivoting", "num": "07", "icon": "🔀", "files": [{"path": "07-Post-Exploitation-Pivoting/README.md", "title": "Overview"}]}, {"id": "08-Password-Attacks", "label": "Password Attacks", "num": "08", "icon": "🔑", "files": [{"path": "08-Password-Attacks/README.md", "title": "Overview"}]}, {"id": "09-Reporting", "label": "Reporting", "num": "09", "icon": "📝", "files": [{"path": "09-Reporting/README.md", "title": "Overview"}]}, {"id": "10-Analysis-Forensics", "label": "Analysis Forensics", "num": "10", "icon": "🔬", "files": [{"path": "10-Analysis-Forensics/README.md", "title": "Overview"}, {"path": "10-Analysis-Forensics/Crypto-and-Encoding.md", "title": "Crypto and Encoding"}, {"path": "10-Analysis-Forensics/OLEdump.md", "title": "OLEdump"}]}, {"id": "OSCP", "label": "OSCP", "num": "", "icon": "🎓", "files": [{"path": "OSCP/README.md", "title": "Overview"}, {"path": "OSCP/Cheat-Sheet.md", "title": "Cheat Sheet"}, {"path": "OSCP/Exam-Format.md", "title": "Exam Format"}, {"path": "OSCP/Methodology.md", "title": "Methodology"}, {"path": "OSCP/Practice-Resources.md", "title": "Practice Resources"}, {"path": "OSCP/Report-Tips.md", "title": "Report Tips"}, {"path": "OSCP/Restricted-Tools.md", "title": "Restricted Tools"}]}, {"id": "Misc", "label": "Misc", "num": "", "icon": "🧩", "files": [{"path": "Misc/README.md", "title": "Overview"}, {"path": "Misc/AI-Assisted-Pentesting-and-Adversary-Emulation.md", "title": "AI Assisted Pentesting and Adversary Emulation"}]}];
+const SECTIONS = [{"id": "home", "label": "Home", "icon": "🏠", "num": "", "files": []}, {"id": "guides", "label": "Guides", "icon": "📖", "num": "", "files": [{"path": "START-A-PENTEST-LAB.md", "title": "Start a Pentest Lab"}, {"path": "Pentesting-Field-Guide.md", "title": "Pentesting Field Guide"}, {"path": "Cyber-Kill-Chain.md", "title": "Cyber Kill Chain"}]}, {"id": "00-Lab-Setup", "label": "Lab Setup", "num": "00", "icon": "🧰", "files": [{"path": "00-Lab-Setup/README.md", "title": "Overview"}]}, {"id": "01-Recon", "label": "Recon", "num": "01", "icon": "🔭", "files": [{"path": "01-Recon/README.md", "title": "Overview"}, {"path": "01-Recon/Internet-Scanners-and-Threat-Intel.md", "title": "Internet Scanners and Threat Intel"}, {"path": "01-Recon/OSINT-Toolkit.md", "title": "OSINT Toolkit"}]}, {"id": "02-Enumeration", "label": "Enumeration", "num": "02", "icon": "📡", "files": [{"path": "02-Enumeration/README.md", "title": "Overview"}, {"path": "02-Enumeration/FTP.md", "title": "FTP"}, {"path": "02-Enumeration/LDAP.md", "title": "LDAP"}, {"path": "02-Enumeration/SMB.md", "title": "SMB"}, {"path": "02-Enumeration/SNMP.md", "title": "SNMP"}, {"path": "02-Enumeration/SSH.md", "title": "SSH"}]}, {"id": "03-Web", "label": "Web", "num": "03", "icon": "🌐", "files": [{"path": "03-Web/README.md", "title": "Overview"}, {"path": "03-Web/Client-Side-JavaScript-Security.md", "title": "Client Side JavaScript Security"}]}, {"id": "04-Exploitation", "label": "Exploitation", "num": "04", "icon": "💥", "files": [{"path": "04-Exploitation/README.md", "title": "Overview"}, {"path": "04-Exploitation/Reverse-Shells.md", "title": "Reverse Shells"}]}, {"id": "05-Privilege-Escalation", "label": "Privilege Escalation", "num": "05", "icon": "🔼", "files": [{"path": "05-Privilege-Escalation/README.md", "title": "Overview"}, {"path": "05-Privilege-Escalation/GTFOBins.md", "title": "GTFOBins"}, {"path": "05-Privilege-Escalation/LOLBAS.md", "title": "LOLBAS"}, {"path": "05-Privilege-Escalation/Linux.md", "title": "Linux"}, {"path": "05-Privilege-Escalation/Windows.md", "title": "Windows"}]}, {"id": "06-Active-Directory", "label": "Active Directory", "num": "06", "icon": "🏛️", "files": [{"path": "06-Active-Directory/README.md", "title": "Overview"}, {"path": "06-Active-Directory/Kerberos-Tickets.md", "title": "Kerberos Tickets"}, {"path": "06-Active-Directory/Windows-Server-AD-Lab-Setup.md", "title": "Windows Server AD Lab Setup"}]}, {"id": "07-Post-Exploitation-Pivoting", "label": "Post Exploitation Pivoting", "num": "07", "icon": "🔀", "files": [{"path": "07-Post-Exploitation-Pivoting/README.md", "title": "Overview"}]}, {"id": "08-Password-Attacks", "label": "Password Attacks", "num": "08", "icon": "🔑", "files": [{"path": "08-Password-Attacks/README.md", "title": "Overview"}]}, {"id": "09-Reporting", "label": "Reporting", "num": "09", "icon": "📝", "files": [{"path": "09-Reporting/README.md", "title": "Overview"}]}, {"id": "10-Analysis-Forensics", "label": "Analysis Forensics", "num": "10", "icon": "🔬", "files": [{"path": "10-Analysis-Forensics/README.md", "title": "Overview"}, {"path": "10-Analysis-Forensics/Crypto-and-Encoding.md", "title": "Crypto and Encoding"}, {"path": "10-Analysis-Forensics/OLEdump.md", "title": "OLEdump"}]}, {"id": "11-Persistence", "label": "Persistence", "num": "11", "icon": "🪝", "files": [{"path": "11-Persistence/README.md", "title": "Overview"}, {"path": "11-Persistence/Linux.md", "title": "Linux"}, {"path": "11-Persistence/Windows.md", "title": "Windows"}]}, {"id": "OSCP", "label": "OSCP", "num": "", "icon": "🎓", "files": [{"path": "OSCP/README.md", "title": "Overview"}, {"path": "OSCP/Cheat-Sheet.md", "title": "Cheat Sheet"}, {"path": "OSCP/Exam-Format.md", "title": "Exam Format"}, {"path": "OSCP/Methodology.md", "title": "Methodology"}, {"path": "OSCP/Practice-Resources.md", "title": "Practice Resources"}, {"path": "OSCP/Report-Tips.md", "title": "Report Tips"}, {"path": "OSCP/Restricted-Tools.md", "title": "Restricted Tools"}]}, {"id": "Misc", "label": "Misc", "num": "", "icon": "🧩", "files": [{"path": "Misc/README.md", "title": "Overview"}, {"path": "Misc/AI-Assisted-Pentesting-and-Adversary-Emulation.md", "title": "AI Assisted Pentesting and Adversary Emulation"}]}];
 const nav=document.getElementById('nav'), content=document.getElementById('content'),
       sidebar=document.getElementById('sidebar'), scrim=document.getElementById('scrim');
 
@@ -221,25 +247,40 @@ async function render(){
 }
 
 function renderHome(){
-  let cards=SECTIONS.filter(s=>s.id!=='home'&&s.id!=='guides').map(s=>
-    `<div class="card" onclick="location.hash='#/${s.id}'">
+  const secs=SECTIONS.filter(s=>s.id!=='home'&&s.id!=='guides');
+  const totalPages=SECTIONS.reduce((n,s)=>n+s.files.length,0);
+  const phaseCount=secs.filter(s=>s.num).length;
+  const cards=secs.map(s=>`<div class="card" onclick="location.hash='#/${s.id}'">
         <div class="ic">${s.icon}</div>
-        <div class="num">${s.num?('PHASE '+s.num):''}</div>
+        <div class="num">${s.num?('PHASE '+s.num):'SECTION'}</div>
         <div class="nm">${s.label}</div>
         <div class="cnt">${s.files.length} page${s.files.length>1?'s':''}</div>
      </div>`).join('');
+  const KC=['Recon','Weaponize','Delivery','Exploit','Install','C2','Actions'];
+  const kc=KC.map((k,i)=>`<a class="kcchip" href="#/Cyber-Kill-Chain.md"><span class="kcn">${i+1}</span>${k}</a>`).join('<span class="kcar">→</span>');
   content.innerHTML=`
-   <div class="hero">
-     <h1>🛡️ Pentesting Toolkit</h1>
-     <div class="tag">Phase-by-phase offensive-security tools, commands, and cheat sheets.</div>
-     <div style="margin-top:14px">
-       <a href="#/guides">📖 Start a Pentest Lab</a> &nbsp;·&nbsp;
-       <a href="#/notebook">📓 Lab Notebook</a> &nbsp;·&nbsp;
-       <a href="#/10-Analysis-Forensics">🔬 Analysis & Forensics</a>
+   <div class="hero2">
+     <div class="badge">OFFENSIVE SECURITY · LAB TOOLKIT</div>
+     <h1>🛡️ Pentesting Toolkit<span class="amp"> & Cheat-Sheets</span></h1>
+     <p class="sub">A phase-by-phase knowledge base — recon to reporting — with tools, exact commands, flag-by-flag explanations, and a lab notebook. Built to start a lab fast.</p>
+     <div class="cta">
+       <a class="btn primary" href="#/guides">🚀 Start a Pentest Lab</a>
+       <a class="btn" href="#/notebook">📓 Lab Notebook</a>
+       <a class="btn" href="#/04-Exploitation%2FReverse-Shells.md">🐚 Reverse Shells</a>
+       <a class="btn" href="https://www.revshells.com" target="_blank" rel="noopener">↗ revshells.com</a>
+       <a class="btn" href="#/Cyber-Kill-Chain.md">⛓ Kill Chain</a>
      </div>
-     <div class="warn">For educational purposes only, and only for lab-controlled, authorized penetration testing.</div>
+     <div class="stats">
+       <div class="stat"><b>${phaseCount}</b>phases</div>
+       <div class="stat"><b>${totalPages}</b>pages</div>
+       <div class="stat"><b>🔍</b>full-text search</div>
+       <div class="stat"><b>📓</b>notebook + export</div>
+     </div>
    </div>
-   <div class="grid">${cards}</div>`;
+   <div class="kcstrip"><span class="kclabel">KILL CHAIN</span>${kc}</div>
+   <h2 class="shead">Sections</h2>
+   <div class="grid">${cards}</div>
+   <div class="warn2">⚠ For educational purposes only, and only for lab-controlled, authorized penetration testing.</div>`;
 }
 
 async function renderFile(sec,file){

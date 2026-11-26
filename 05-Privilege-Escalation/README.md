@@ -5,3 +5,5 @@ Move from a low-privilege foothold to root (Linux) or SYSTEM/Administrator (Wind
 ## Pages
 - [Linux](Linux.md)
 - [Windows](Windows.md)
+- [GTFOBins](GTFOBins.md) — abusing SUID/sudo Unix binaries
+- [LOLBAS](LOLBAS.md) — abusing trusted Windows binaries
