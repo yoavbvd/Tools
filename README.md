@@ -44,7 +44,7 @@ Run it locally with `python3 -m http.server`, then open `index.html`. (Opening t
 | 04 | **[Exploitation](04-Exploitation/)** | searchsploit, hydra, msfvenom, file transfer, [reverse shells](04-Exploitation/Reverse-Shells.md) |
 | 05 | **[Privilege Escalation](05-Privilege-Escalation/)** | [Linux](05-Privilege-Escalation/Linux.md) & [Windows](05-Privilege-Escalation/Windows.md): linpeas/winpeas, pspy, [GTFOBins](05-Privilege-Escalation/GTFOBins.md), [LOLBAS](05-Privilege-Escalation/LOLBAS.md) |
 | 06 | **[Active Directory](06-Active-Directory/)** | BloodHound, kerbrute, impacket, mimikatz, certipy, responder, [Kerberos golden/silver tickets](06-Active-Directory/Kerberos-Tickets.md) |
-| 07 | **[Post-Exploitation & Pivoting](07-Post-Exploitation-Pivoting/)** | ligolo-ng, chisel, SOCKS tunneling |
+| 07 | **[Post-Exploitation & Pivoting](07-Post-Exploitation-Pivoting/)** | [Situational Awareness](07-Post-Exploitation-Pivoting/Situational-Awareness.md) (post-shell commands), ligolo-ng, chisel, SOCKS tunneling |
 | 08 | **[Password Attacks](08-Password-Attacks/)** | hashcat, john, `*2john`, wordlists |
 | 09 | **[Reporting](09-Reporting/)** | Evidence capture, report structure |
 | 10 | **[Analysis & Forensics](10-Analysis-Forensics/)** | [OLEdump](10-Analysis-Forensics/OLEdump.md), [Crypto/RSA](10-Analysis-Forensics/Crypto-and-Encoding.md), olevba, pdfid, exiftool, binwalk, yara |
